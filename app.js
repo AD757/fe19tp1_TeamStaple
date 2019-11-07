@@ -3,10 +3,29 @@ const popupClose = document.querySelectorAll('.btnClose');
 const popup = document.querySelector('.popup_wrapper');
 const app = document.querySelector('.app');
 
+// Checking if the popup checkbox status is saved in LS //
+let popupChecked = JSON.parse(localStorage.getItem('popupShown'));
+
+// Hiding the popup if the popup hide-checkbox was checked //
+if (popupChecked == true) {
+    popup.style.display = 'none';
+    app.classList.remove('blur');
+}
+
+// Closing the popup and saving the checkbox status //
 popupClose.forEach((btn) => {
+
     btn.addEventListener('click', () => {
         popup.style.display = "none";
-    app.classList.remove('blur');
+        app.classList.remove('blur');
+
+    // ********* CHECKBOX ********* //
+    let stopPopup = document.getElementById("hidePopup");
+    if (stopPopup.checked == true || stopPopup.checked == 'true') {
+        console.log('checkbox checked');
+        // Saving the checkbox status in LS
+        localStorage.setItem('popupShown', 'true');
+    }
     })
 });
 
@@ -49,6 +68,25 @@ btnExpand.addEventListener('click', () => {
     
 })
 
+// ********* BURGER MENU ********* //
+const btnBurger = document.querySelector('.nav_burger-menu');
+const btnNavTxt = document.querySelectorAll('.btn-nav_text');
+const navList = document.querySelector('.nav_list');
+const toolbar = document.querySelector('.toolbar');
+
+btnBurger.addEventListener('click', () => {
+    navList.classList.toggle('nav-list_show');
+    toolbar.classList.toggle('toolbar_hide');
+    btnNavTxt.forEach((txt) => {
+        if (navList.classList.contains('nav-list_show')) {
+            txt.style.display = 'block';
+        } else {
+            txt.style.display = 'none';
+        }
+        
+    })
+})
+
 // ********* ADD TO FAVORITES ********* //
 const notesList = document.querySelector('.notes_list');
 const notesItems = [...notesList.children];
@@ -83,4 +121,12 @@ btnStarred.addEventListener('click', () => {
         emptyMsg.classList.toggle('show');
     }
 
+})
+
+// ********* CREATE A NEW NOTE ********* //
+
+const btnNewNote = document.querySelector ('.btn-nav_new-note');
+
+btnNewNote.addEventListener('click', () => {
+    
 })
