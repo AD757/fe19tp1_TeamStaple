@@ -19,13 +19,13 @@ popupClose.forEach((btn) => {
         popup.style.display = "none";
         app.classList.remove('blur');
 
-    // ********* CHECKBOX ********* //
-    let stopPopup = document.getElementById("hidePopup");
-    if (stopPopup.checked == true || stopPopup.checked == 'true') {
-        console.log('checkbox checked');
-        // Saving the checkbox status in LS
-        localStorage.setItem('popupShown', 'true');
-    }
+        // ********* CHECKBOX ********* //
+        let stopPopup = document.getElementById("hidePopup");
+        if (stopPopup.checked == true || stopPopup.checked == 'true') {
+            console.log('checkbox checked');
+            // Saving the checkbox status in LS
+            localStorage.setItem('popupShown', 'true');
+        }
     })
 });
 
@@ -65,7 +65,7 @@ btnExpand.addEventListener('click', () => {
             text.style.display = 'none';
         })
     }
-    
+
 })
 
 // ********* BURGER MENU ********* //
@@ -83,7 +83,7 @@ btnBurger.addEventListener('click', () => {
         } else {
             txt.style.display = 'none';
         }
-        
+
     })
 })
 
@@ -108,7 +108,7 @@ notesList.addEventListener('click', e => {
 const emptyMsg = document.querySelector('.notes_empty-msg');
 
 btnStarred.addEventListener('click', () => {
-    
+
     const faves = notesItems.filter(item => item.classList.contains('favorite'));
 
     notesItems.filter(item => {
@@ -125,8 +125,32 @@ btnStarred.addEventListener('click', () => {
 
 // ********* CREATE A NEW NOTE ********* //
 
-const btnNewNote = document.querySelector ('.btn-nav_new-note');
+const btnNewNote = document.querySelector('.btn-nav_new-note');
 
 btnNewNote.addEventListener('click', () => {
-    
-})
+
+});
+
+// Create Note //
+
+
+
+var noteList = {
+    notes: [],
+    addNote: function (noteTitle, noteText) {
+        this.notes.push({
+            title: noteTitle,
+            date: new Date().toISOString().slice(0, 10),
+            text: noteText,
+            favorite: false
+        });
+    }
+};
+
+// Add note Manually//
+
+noteList.addNote('My note', 'hello this is my note');
+noteList.addNote('My note2', 'hello this is my second note');
+
+localStorage.setItem('noteList', JSON.stringify(noteList.notes));
+console.log(noteList.notes);
