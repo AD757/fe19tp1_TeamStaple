@@ -140,17 +140,24 @@ var noteList = {
     addNote: function (noteTitle, noteText) {
         this.notes.push({
             title: noteTitle,
-            date: new Date().toISOString().slice(0, 10),
+            date: new Date(Date.now()).toISOString().slice(0, 10),
             text: noteText,
-            favorite: false
+            favorite: false,
+            //id: Date.now(),
+
         });
     }
+    // settings: {
+    //     darkmode: false,
+    //     theme: winter,
+
+    // }
 };
 
-// Add note Manually//
+// Add note manually//
 
 noteList.addNote('My note', 'hello this is my note');
 noteList.addNote('My note2', 'hello this is my second note');
 
-localStorage.setItem('noteList', JSON.stringify(noteList.notes));
+localStorage.setItem('noteList', JSON.stringify(noteList));
 console.log(noteList.notes);
