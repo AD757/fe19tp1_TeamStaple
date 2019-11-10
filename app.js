@@ -131,9 +131,8 @@ btnNewNote.addEventListener('click', () => {
 
 });
 
-// Create Note //
 
-
+// Create Note 
 
 var noteList = {
     notes: [],
@@ -156,8 +155,43 @@ var noteList = {
 
 // Add note manually//
 
-noteList.addNote('My note', 'hello this is my note');
-noteList.addNote('My note2', 'hello this is my second note');
+// noteList.addNote('My note', 'hello this is my note');
+// noteList.addNote('My note2', 'hello this is my second note');
 
-localStorage.setItem('noteList', JSON.stringify(noteList));
-console.log(noteList.notes);
+// localStorage.setItem('noteList', JSON.stringify(noteList));
+//console.log(noteList.notes);
+
+
+
+//Adding list items
+
+var createNew = document.querySelector('.btn-nav_new-note');
+
+createNew.addEventListener('click', function () {
+    var noteList = document.querySelector('.notes_list');
+
+    // Create Li (notes item) element
+    var noteItem = document.createElement('li');
+    noteItem.classList.add('notes_item');
+    noteList.appendChild(noteItem);
+    noteItem.innerHTML = 'I am a list note injected from JS';
+
+    //creating div element notes info
+    var notesInfo = document.createElement('div');
+    notesInfo.classList.add('notes_info');
+    noteItem.appendChild(notesInfo);
+
+    //creating div element notes content
+    var notesContent = document.createElement('div');
+    notesContent.classList.add('notes_content');
+    noteItem.appendChild(notesContent);
+
+
+});
+
+
+//Quil editor
+
+var quill = new Quill('#editor', {
+    theme: 'snow'
+});

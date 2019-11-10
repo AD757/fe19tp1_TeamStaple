@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Baloo|Lato:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <title>Quire</title>
 </head>
+
 <body>
 
     <main class="app blur">
@@ -26,7 +31,7 @@
                 <div class="nav_logo">
                     <a href="index.html" class="nav-logo_text">Q</a>
                 </div>
-    
+
                 <ul class="nav_list">
                     <li class="nav_item">
                         <button class="btn-nav btn-nav_new-note">
@@ -53,7 +58,7 @@
                         </button>
                     </li>
                 </ul>
-    
+
                 <div class="nav_expand">
                     <p class="nav_about">About Quire</p>
                     <button class="btn_expand">
@@ -61,17 +66,17 @@
                     </button>
                 </div>
             </nav>
-    
+
             <!--------------- NOTES TITLES --------------->
-    
+
             <section class="notes">
-    
+
                 <div class="notes_search">
                     <input type="search" class="search_input" placeholder="Search...">
                 </div>
-    
+
                 <ul class="notes_list">
-                    <li class="notes_item">
+                    <!-- <li class="notes_item">
                         <div class="notes_info">
                             <div class="notes-date">
                                 <span class="notes_date-month">Nov</span>
@@ -109,6 +114,19 @@
                             <h3 class="notes_title">Title</h3>
                             <p class="notes_text">Text</p>
                         </div>
+                    </li> -->
+                    <li class="notes_item">
+                        <div class="notes_info">
+                            <div class="notes-date">
+                                <span class="notes_date-month">Oct</span>
+                                <span class="notes_date-day">14</span>
+                            </div>
+                            <i class="notes_star far fa-star"></i>
+                        </div>
+                        <div class="notes_content">
+                            <h3 class="notes_title">Title</h3>
+                            <p class="notes_text">Text</p>
+                        </div>
                     </li>
                 </ul>
 
@@ -122,7 +140,7 @@
 
         <section class="main-content">
 
-            <div class="toolbar">
+            <!-- <div class="toolbar">
                 <ul class="toolbar_list">
                     <li class="toolbar_item">
                         <button class="btn_toolbar btn_bold">
@@ -138,12 +156,12 @@
                     </li>
                     <li class="toolbar_item">
                         <button class="btn_toolbar btn_underline">
-                                <i class="toolbar_icon fas fa-underline"></i>
+                            <i class="toolbar_icon fas fa-underline"></i>
                             <span class="toolbar_name">Underline</span>
                         </button>
                     </li>
                 </ul>
-        
+
                 <ul class="toolbar_list">
                     <li class="toolbar_item">
                         <button class="btn_toolbar btn_bullet">
@@ -158,7 +176,7 @@
                         </button>
                     </li>
                 </ul>
-    
+
                 <ul class="toolbar_list">
                     <li class="toolbar_item">
                         <button class="btn_toolbar btn_themes">
@@ -166,8 +184,8 @@
                             <span class="toolbar_name">Print</span>
                         </button>
                     </li>
-                </ul>      
-            </div>
+                </ul>
+            </div> -->
 
             <section class="editor">
                 <div class="editor_header">
@@ -176,26 +194,45 @@
                 </div>
                 <div class="editor_date">December 15th, 2019</div>
                 <div class="editor_body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut sunt, molestiae provident iure molestias magni sapiente veritatis soluta libero, porro maiores eos modi nostrum quia labore illo suscipit deleniti consequatur.</p>
-                    <p>Minus obcaecati, dolore aliquid expedita nostrum, <a href="#">hello this is a link</a> animi rem quia aspernatur quod in illum architecto sed omnis sapiente consequatur nesciunt hic voluptatem ratione! Quia cum soluta quod eum minus molestias molestiae unde facilis! Necessitatibus numquam temporibus debitis praesentium id assumenda, facilis similique earum odit provident.</p>
+                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut sunt, molestiae provident iure
+                        molestias magni sapiente veritatis soluta libero, porro maiores eos modi nostrum quia labore
+                        illo suscipit deleniti consequatur.</p>
+                    <p>Minus obcaecati, dolore aliquid expedita nostrum, <a href="#">hello this is a link</a> animi rem
+                        quia aspernatur quod in illum architecto sed omnis sapiente consequatur nesciunt hic voluptatem
+                        ratione! Quia cum soluta quod eum minus molestias molestiae unde facilis! Necessitatibus numquam
+                        temporibus debitis praesentium id assumenda, facilis similique earum odit provident.</p>
                     <ul>
                         <li>
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                         </li>
                         <li>
-                            Ullam, doloribus expedita corrupti non, libero doloremque porro sed sunt, fugit earum rerum iure dolorem eligendi.
+                            Ullam, doloribus expedita corrupti non, libero doloremque porro sed sunt, fugit earum rerum
+                            iure dolorem eligendi.
                         </li>
                         <li>
                             Nihil atque ab ex sed vitae?
                         </li>
                     </ul>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias delectus veniam voluptatum eos eligendi maxime pariatur. Accusamus labore aliquam laboriosam neque, autem velit minus deleniti qui beatae ipsam, necessitatibus laudantium?</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias delectus veniam voluptatum eos
+                        eligendi maxime pariatur. Accusamus labore aliquam laboriosam neque, autem velit minus deleniti
+                        qui beatae ipsam, necessitatibus laudantium?</p>
                     <ol>
                         <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</li>
-                        <li>Ab aperiam neque doloribus dolore unde sapiente soluta autem consequuntur nobis culpa aliquid expedita nulla aut eaque.</li>
+                        <li>Ab aperiam neque doloribus dolore unde sapiente soluta autem consequuntur nobis culpa
+                            aliquid expedita nulla aut eaque.</li>
                         <li>Animi odit mollitia obcaecati accusamus!</li>
                     </ol>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere voluptas optio recusandae, excepturi, veritatis aperiam neque earum odio eaque expedita porro! Ipsa iure rerum corrupti libero placeat quos eius et. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quam minima autem modi nulla, incidunt ut possimus eius animi deleniti dolor velit natus necessitatibus? Eius, reprehenderit facilis. Omnis, dolores perspiciatis.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere voluptas optio recusandae,
+                        excepturi, veritatis aperiam neque earum odio eaque expedita porro! Ipsa iure rerum corrupti
+                        libero placeat quos eius et. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quam
+                        minima autem modi nulla, incidunt ut possimus eius animi deleniti dolor velit natus
+                        necessitatibus? Eius, reprehenderit facilis. Omnis, dolores perspiciatis.</p> -->
+
+                    <div id="editor">
+                        <p>Hello World!</p>
+                        <p>Some initial <strong>bold</strong> text</p>
+                        <p><br></p>
+                    </div>
                 </div>
             </section>
 
@@ -204,10 +241,10 @@
     </main>
 
     <!--------------- POPUP --------------->
-    
+
 
     <div class="popup_wrapper">
-        
+
         <div class="popup">
             <div class="popup_close btnClose">
                 <i class="fas fa-times"></i>
@@ -215,7 +252,8 @@
             <div class="popup_content">
                 <h2 class="popup_title">Quire</h2>
                 <h3 class="popup_description">Your number one app for taking notes</h3>
-                <p class="popup_text">Quire is an online note taking app that makes it easy for you to save information that needs to be saved.</p>
+                <p class="popup_text">Quire is an online note taking app that makes it easy for you to save information
+                    that needs to be saved.</p>
                 <div class="popup_features">
                     <ul class="features_list">
                         <li class="features_item">
@@ -245,4 +283,5 @@
     <div class="popup_blur"></div>
     <script src="app.js"></script>
 </body>
+
 </html>
