@@ -260,6 +260,7 @@ btnSave.addEventListener('click', () => {
     const newNote = new Note (
         title,
         text,
+        preview,
         isStarred,
         isDeleted,
         id,
