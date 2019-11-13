@@ -19,13 +19,13 @@ popupClose.forEach((btn) => {
         popup.style.display = "none";
         app.classList.remove('blur');
 
-    // ********* CHECKBOX ********* //
-    let stopPopup = document.getElementById("hidePopup");
-    if (stopPopup.checked == true || stopPopup.checked == 'true') {
-        console.log('checkbox checked');
-        // Saving the checkbox status in LS
-        localStorage.setItem('popupShown', 'true');
-    }
+        // ********* CHECKBOX ********* //
+        let stopPopup = document.getElementById("hidePopup");
+        if (stopPopup.checked == true || stopPopup.checked == 'true') {
+            console.log('checkbox checked');
+            // Saving the checkbox status in LS
+            localStorage.setItem('popupShown', 'true');
+        }
     })
 });
 
@@ -65,7 +65,7 @@ btnExpand.addEventListener('click', () => {
             text.style.display = 'none';
         })
     }
-    
+
 })
 
 // ********* BURGER MENU ********* //
@@ -83,7 +83,7 @@ btnBurger.addEventListener('click', () => {
         } else {
             txt.style.display = 'none';
         }
-        
+
     })
 })
 
@@ -113,7 +113,7 @@ notesList.addEventListener('click', e => {
 // ********* SHOW OR HIDE FAVORITES ********* //
 
 btnStarred.addEventListener('click', () => {
-    
+
     const faves = notesItems.filter(item => item.classList.contains('favorite'));
 
     notesItems.filter(item => {
@@ -148,9 +148,9 @@ function saveNote() {
 function loadNotes() {
 
     myNotes = JSON.parse(localStorage.getItem("savedNotes"));
-        if (myNotes === null) {
-            myNotes = [];
-        }
+    if (myNotes === null) {
+        myNotes = [];
+    }
 
 }
 
@@ -174,14 +174,14 @@ noteDate.innerHTML = `
 const sidebarNotes = (title, preview, month, date) => { // need id
 
     if (preview.length > 50) {
-        preview = preview.substring(0,50) + "...";
+        preview = preview.substring(0, 50) + "...";
     }
 
     notesList.insertAdjacentHTML('afterbegin', `
         <li class="notes_item">
         <div class="notes_info">
             <div class="notes-date">
-            <span class="notes_date-month">` + months[month].substr(0,3) + `</span>
+            <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
             <span class="notes_date-day">` + date + `</span>
             </div>
             <i class="notes_star far fa-star"></i>
@@ -192,10 +192,10 @@ const sidebarNotes = (title, preview, month, date) => { // need id
         </div>
         </li>
     `)
-  }
+}
 
 myNotes.forEach(note => {
-    
+
     sidebarNotes(note.title, note.preview, note.month, note.date);
 
 })
@@ -257,9 +257,10 @@ btnSave.addEventListener('click', () => {
     let seconds = newDate.getSeconds();
 
     //create new Note Object
-    const newNote = new Note (
+    const newNote = new Note(
         title,
         text,
+        preview,
         isStarred,
         isDeleted,
         id,
@@ -271,12 +272,12 @@ btnSave.addEventListener('click', () => {
         minutes,
         seconds,
     );
-
+    console.log(newNote.month);
     if (newNote.title == '') {
         console.log('Enter a title');
-        return; 
+        return;
     }
-
+    console.log(newNote.month);
     sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date);
 
     myNotes.push(newNote);
@@ -350,7 +351,7 @@ btnSave.addEventListener('click', () => {
         /* inputTitle.insertAdjacentHTML('afterend', `
             <p>*Enter title</p>
         `)
-        return; 
+        return;
     }
 
     if (newNote.text.length > 30) {
