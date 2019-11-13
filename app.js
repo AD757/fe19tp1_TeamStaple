@@ -260,6 +260,7 @@ btnSave.addEventListener('click', () => {
     const newNote = new Note(
         title,
         text,
+        preview,
         isStarred,
         isDeleted,
         id,
@@ -271,12 +272,12 @@ btnSave.addEventListener('click', () => {
         minutes,
         seconds,
     );
-
+    console.log(newNote.month);
     if (newNote.title == '') {
         console.log('Enter a title');
         return;
     }
-
+    console.log(newNote.month);
     sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date);
 
     myNotes.push(newNote);
