@@ -32,6 +32,7 @@ p, h1, h2, h3, h4, h5, h6 {
     height: 100vh;
     min-width: 60px;
     background-color: #42A5F5;
+    z-index: 100;
 }
 
 /***************   PAGE LOGO   ***************/
@@ -183,7 +184,7 @@ p, h1, h2, h3, h4, h5, h6 {
 /***************   NOTES LIST   ***************/
 
 .notes {
-    min-width: 300px;
+    width: 300px;
     height: 100vh;
     overflow-y: scroll;
     background-color: #f6f6f6;
@@ -284,130 +285,116 @@ p, h1, h2, h3, h4, h5, h6 {
     margin: 100px auto 0;
 }
 
-/***************   TOOLBAR   ***************/
-
-.toolbar {
-    position: fixed;
-    margin: 0;
-    padding: 15px 0 15px 50px;
-    width: 100%;
-    height: 30px;
-    display: flex;
-    background-color: #fff;
-}
-
-.toolbar_list {
-    margin: 0;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    list-style: none;
-    border-right: 1px solid #ddd;
-}
-
-.toolbar_list:first-child {
-    padding-left: 0;
-}
-
-.toolbar_list:last-child {
-    border-right: none;
-}
-
-.toolbar_item {
-    margin-right: 10px;
-}
-
-.toolbar_name {
-    display: none;
-}
-
-.btn_toolbar {
-    display: flex;
-    align-items: center;
-    padding: 3px 10px;
-    font-size: 14px;
-    color: #666;
-    border: none;
-    cursor: pointer;
-    outline: none;
-}
-
-.btn_toolbar:hover, .btn_toolbar:focus {
-    color: #1E88E5;
-}
-
 /***************   EDITOR   ***************/
 
 .main-content {
     margin: 0 auto;
     width: 50%;
-    max-height: 100vh;
-    overflow-y: scroll;
+    height: 100vh;
 }
 
-.editor_header {
-    margin: 80px 50px 15px;
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 600;
-    /* color: #42A5F5; */
+.editor {
+    height: 80%;
 }
 
-.editor_date {
-    margin: 0 50px 20px;
-    padding-bottom: 10px;
-    font-size: 12px;
-    color: #bbb;
-    /* border-bottom: 1px solid #ddd; */
+/***************   QUILL   ***************/
+
+.ql-toolbar.ql-snow {
+    padding: 10px 0 !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-.editor_body {
-    margin: 25px 50px;
+/*.ql-toolbar.ql-snow,*/
+
+.ql-container.ql-snow {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    /*border: 0 !important;*/
 }
 
-.editor_body p, .editor_body ul, .editor_body ol {
+.ql-editor {
+    padding: 10px 8px !important;
+}
+
+.ql-editor p {
+    font-family: 'Lato', sans-serif !important;
     margin-bottom: 20px;
     font-size: 16px;
     line-height: 26px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
-.editor_body a {
-    color: #4FC3F7;
-    text-decoration: none;
+/*Quill text area Placeholder */
+
+.ql-editor.ql-blank::before {
+    color: rgba(0, 0, 0, 0.3) !important;
+    content: attr(data-placeholder);
+    top: 15px !important;
+    left: 8px !important;
 }
 
-.editor_body a:hover {
+.quill_title-container {
+    display: flex;
+}
+
+.quill_title {
+    flex-grow: 1;
+    width: 100%;
+    padding: 5px 8px;
+    margin: 10px 10px 0 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.5px;
     color: #42A5F5;
+    /*border: 0;*/
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: 0;
 }
 
-.editor_body ul li {
-    list-style: none;
+.quill_title::placeholder {
+    color: rgba(0, 0, 0, 0.3);
 }
 
-.editor_body ul li:before {
-    content: "\2022";
-    color: #42A5F5;
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
+.quill_title:hover, .quill_title:hover {
+    background-color: #f2f2f2;
+    outline: 0;
 }
 
-.editor_body ol li {
-    counter-increment: list;
-    list-style-type: none;
+.quill_btn-save {
+    display: block;
+    margin: 10px 0 0;
+    padding: 15px 35px;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    background-color: #42A5F5;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: 0;
+}
+
+.quill_btn-save:hover, .quill_btn-save:focus {
+    background-color: #1E88E5;
+}
+
+.quill_date {
+    display: block;
+    margin: 0;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #bbb;
+}
+
+.quill_error {
     position: relative;
 }
 
-.editor_body ol li:before {
-    color: #42A5F5;
-    content: counter(list) ".";
-    left: -32px;
+.quill_error:after {
     position: absolute;
-    font-weight: bold;
-    text-align: right;
-    width: 26px;
+    content: 'Enter a title';
 }
 
 /***************   POPUP   ***************/
@@ -546,15 +533,17 @@ p, h1, h2, h3, h4, h5, h6 {
 @media (max-width: 992px) {
     .main-content {
         width: 100%;
+        padding: 0 25px;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
     .notes {
         display: none;
     }
     .main-content {
         width: 100%;
+        padding: 0 25px;
     }
     .btn-nav:hover, .btn-nav:focus {
         background-color: #fff;
@@ -576,6 +565,7 @@ p, h1, h2, h3, h4, h5, h6 {
     .main-content {
         width: 100%;
         margin-top: 60px;
+        padding: 0 25px;
     }
     .nav_list {
         display: none;

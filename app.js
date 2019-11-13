@@ -92,6 +92,12 @@ const notesList = document.querySelector('.notes_list');
 const notesItems = [...notesList.children];
 const btnStarred = document.querySelector('.btn-nav_starred');
 
+const emptyMsg = document.querySelector('.notes_empty-msg');
+
+function showEmptyMsg() {
+    emptyMsg.classList.toggle('show');
+}
+
 // Mark an item as a Favorite
 notesList.addEventListener('click', e => {
     if (e.target.classList.contains('notes_star')) {
@@ -105,7 +111,6 @@ notesList.addEventListener('click', e => {
 });
 
 // ********* SHOW OR HIDE FAVORITES ********* //
-const emptyMsg = document.querySelector('.notes_empty-msg');
 
 btnStarred.addEventListener('click', () => {
 
@@ -118,80 +123,262 @@ btnStarred.addEventListener('click', () => {
     })
 
     if (faves.length == 0) {
-        emptyMsg.classList.toggle('show');
+        showEmptyMsg();
     }
 
 })
 
+// ********* QUILL ********* //
+const quill = new Quill('#editor', {
+    theme: 'snow',
+    placeholder: 'Type your note here...',
+});
+
+// ********* LOCAL STORAGE ********* //
+
+//An empty Array to save New Notes Objects into
+let myNotes = [];
+
+function saveNote() {
+
+    localStorage.setItem('savedNotes', JSON.stringify(myNotes));
+
+}
+
+function loadNotes() {
+
+    myNotes = JSON.parse(localStorage.getItem("savedNotes"));
+    if (myNotes === null) {
+        myNotes = [];
+    }
+
+}
+
+loadNotes();
+
+// ********* DATES ********* //
+
+const newDate = new Date();
+const noteDate = document.querySelector('.quill_date');
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+// ********* SHOW DATE IN EDITOR ********* //
+
+noteDate.innerHTML = `
+    ${weekDays[newDate.getDay()]}, ${months[newDate.getMonth()]} ${newDate.getDate()}, ${newDate.getFullYear()} | ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}
+`;
+
+// ********* FILL IN SIDEBAR NOTES ********* //
+
+const sidebarNotes = (title, preview, month, date) => { // need id
+
+    if (preview.length > 50) {
+        preview = preview.substring(0, 50) + "...";
+    }
+
+    notesList.insertAdjacentHTML('afterbegin', `
+        <li class="notes_item">
+        <div class="notes_info">
+            <div class="notes-date">
+            <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
+            <span class="notes_date-day">` + date + `</span>
+            </div>
+            <i class="notes_star far fa-star"></i>
+        </div>
+        <div class="notes_content">
+            <h3 class="notes_title">` + title + `</h3>
+            <p class="notes_text">` + preview + `</p>
+        </div>
+        </li>
+    `)
+}
+
+myNotes.forEach(note => {
+
+    sidebarNotes(note.title, note.preview, note.month, note.date);
+
+})
+
+
+// ********* NOTE CONSTRUCTOR ********* //
+
+class Note {
+    constructor(title, text, preview, isStarred, isDeleted, id, year, month, date, hours, minutes, seconds) {
+        this.title = title
+        this.text = text // Delta, for quill use only
+        this.preview = preview
+        this.isStarred = isStarred
+        this.isDeleted = isDeleted
+        this.id = id
+        //date
+        this.year = year
+        this.month = month
+        this.date = date
+        this.hours = hours
+        this.minutes = minutes
+        this.seconds = seconds
+    }
+}
+
+// ********* CREATE NEW NOTE ********* //
+
+//New Note Button
+const btnCreate = document.querySelector('.btn-nav_new-note');
+
+//Save Button
+const btnSave = document.querySelector('.quill_btn-save');
+//Title
+const quillTitle = document.querySelector('.quill_title');
+//Text
+const quillText = quill.container;
+
+btnCreate.addEventListener('click', () => {
+    quillTitle.value = '';
+    quill.setText('');
+})
+
+//Oncklick event on Save button
+btnSave.addEventListener('click', () => {
+
+    //create references for the object values
+    let title = quillTitle.value;
+    //let text = quillText.textContent;
+    let text = quill.getContents();
+    let preview = quill.getText(0, 30);
+    let isStarred = 'false';
+    let isDeleted = 'false';
+    let id = Date.now();
+    let year = newDate.getFullYear();
+    let month = newDate.getMonth();
+    let date = newDate.getDate();
+    let hours = newDate.getHours();
+    let minutes = newDate.getMinutes();
+    let seconds = newDate.getSeconds();
+
+    //create new Note Object
+    const newNote = new Note(
+        title,
+        text,
+        isStarred,
+        isDeleted,
+        id,
+        //date
+        year,
+        month,
+        date,
+        hours,
+        minutes,
+        seconds,
+    );
+
+    if (newNote.title == '') {
+        console.log('Enter a title');
+        return;
+    }
+
+    sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date);
+
+    myNotes.push(newNote);
+
+    saveNote();
+
+});
+
+// quill.setContents(myNotes[4].text)
+
+
+
+
 // ********* CREATE A NEW NOTE ********* //
 
-const btnNewNote = document.querySelector('.btn-nav_new-note');
-
-btnNewNote.addEventListener('click', () => {
-
-});
-
-
-// Create Note 
-
-var noteList = {
-    notes: [],
-    addNote: function (noteTitle, noteText) {
-        this.notes.push({
-            title: noteTitle,
-            date: new Date(Date.now()).toISOString().slice(0, 10),
-            text: noteText,
-            favorite: false,
-            //id: Date.now(),
-
-        });
+/*
+class Note {
+    constructor(title, text, isStarred, isDeleted, id, year, month, date, hours, minutes, seconds) {
+        this.title = title
+        this.text = text
+        this.isStarred = isStarred
+        this.isDeleted = isDeleted
+        this.id = id
+        //date
+        this.year = year
+        this.month = month
+        this.date = date
+        this.hours = hours
+        this.minutes = minutes
+        this.seconds = seconds
     }
-    // settings: {
-    //     darkmode: false,
-    //     theme: winter,
+}
 
-    // }
-};
+//All the notes Array
+const notes = document.querySelectorAll('.notes_item');
+const notesArr = [...document.querySelectorAll('.notes_item')];
 
-// Add note manually//
+console.log(notesArr);
 
-// noteList.addNote('My note', 'hello this is my note');
-// noteList.addNote('My note2', 'hello this is my second note');
+// *** NOTES *** //
 
-// localStorage.setItem('noteList', JSON.stringify(noteList));
-//console.log(noteList.notes);
+const btnSave = document.querySelector('.quill_btn-save');
+
+//create reference for the Title input field
+const inputTitle = document.querySelector('.quill_title').value;
+//create a new quill key:value for Title and assign it to Title input value
+quill.title = inputTitle;
+const quillTitle = quill.title;
+const quillText = quill.container.textContent;
 
 
+btnSave.addEventListener('click', () => {
 
-//Adding list items
+    console.log(inputTitle);
 
-var createNew = document.querySelector('.btn-nav_new-note');
+    let title = quillTitle;
+    let text = quillText;
+    let isStarred = 'false';
+    let isDeleted = 'false';
+    let id = Date.now();
 
-createNew.addEventListener('click', function () {
-    var noteList = document.querySelector('.notes_list');
+    const newNote = new Note (
+        title,
+        text,
+        isStarred,
+        isDeleted,
+        id,
+    );
 
-    // Create Li (notes item) element
-    var noteItem = document.createElement('li');
-    noteItem.classList.add('notes_item');
-    noteList.appendChild(noteItem);
-    noteItem.innerHTML = 'I am a list note injected from JS';
+    if (newNote.title == '') {
+        /* inputTitle.insertAdjacentHTML('afterend', `
+            <p>*Enter title</p>
+        `)
+        return;
+    }
 
-    //creating div element notes info
-    var notesInfo = document.createElement('div');
-    notesInfo.classList.add('notes_info');
-    noteItem.appendChild(notesInfo);
+    if (newNote.text.length > 30) {
+        newNote.text = newNote.text.substring(0,50) + "...";
+    }
 
-    //creating div element notes content
-    var notesContent = document.createElement('div');
-    notesContent.classList.add('notes_content');
-    noteItem.appendChild(notesContent);
+    notesList.insertAdjacentHTML('afterbegin', `
+        <li class="notes_item">
+            <div class="notes_info">
+                <div class="notes-date">
+                <span class="notes_date-month">Oct</span>
+                <span class="notes_date-day">14</span>
+                </div>
+                <i class="notes_star far fa-star"></i>
+            </div>
+            <div class="notes_content">
+                <h3 class="notes_title">${newNote.title}</h3>
+                <p class="notes_text">${newNote.text}</p>
+            </div>
+        </li>
+    `);
 
+    myNotes.push(newNote);
+
+    notesArr.push(newNote);
+
+    console.log(notesArr);
 
 });
 
-
-//Quil editor
-
-var quill = new Quill('#editor', {
-    theme: 'snow'
-});
+*/
