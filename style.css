@@ -201,10 +201,29 @@ p, h1, h2, h3, h4, h5, h6 {
     display: flex;
     color: #666;
     cursor: pointer;
+    position: relative;
 }
 
 .notes_item:hover {
     background-color: #fff;
+}
+
+.notes_item-delete {
+    position: absolute;
+    right: 8px;
+    top: 36px;
+    background: transparent url(images/delete_btn.png) no-repeat top;
+    width: 32px;
+    height: 32px;
+    background-position: center center;
+    background-size: 42px;
+    border: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.notes_item:hover .notes_item-delete {
+    opacity: 0.5;
 }
 
 .notes_content {

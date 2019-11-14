@@ -171,7 +171,7 @@ noteDate.innerHTML = `
 
 // ********* FILL IN SIDEBAR NOTES ********* //
 
-const sidebarNotes = (title, preview, month, date) => { // need id
+const sidebarNotes = (title, preview, month, date, id) => { // need id
 
     if (preview.length > 50) {
         preview = preview.substring(0, 50) + "...";
@@ -179,6 +179,7 @@ const sidebarNotes = (title, preview, month, date) => { // need id
 
     notesList.insertAdjacentHTML('afterbegin', `
         <li class="notes_item">
+        <button class="notes_item-delete" id=` + id + `></button>
         <div class="notes_info">
             <div class="notes-date">
             <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
@@ -196,9 +197,11 @@ const sidebarNotes = (title, preview, month, date) => { // need id
 
 myNotes.forEach(note => {
 
-    sidebarNotes(note.title, note.preview, note.month, note.date);
+    if (!note.isDeleted == true) { // Check for deleted items
+        sidebarNotes(note.title, note.preview, note.month, note.date, note.id);
+    }
 
-})
+});
 
 
 // ********* NOTE CONSTRUCTOR ********* //
@@ -247,7 +250,7 @@ btnSave.addEventListener('click', () => {
     let text = quill.getContents();
     let preview = quill.getText(0, 30);
     let isStarred = 'false';
-    let isDeleted = 'false';
+    let isDeleted = false;
     let id = Date.now();
     let year = newDate.getFullYear();
     let month = newDate.getMonth();
@@ -278,13 +281,41 @@ btnSave.addEventListener('click', () => {
         return;
     }
     console.log(newNote.month);
-    sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date);
+    sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date, newNote.id);
 
     myNotes.push(newNote);
 
     saveNote();
 
 });
+
+// Delete Note
+
+
+document.addEventListener('click', function () {
+    let btnDelete = event.target;
+    if (!btnDelete.classList.contains('notes_item-delete')) {
+        return;
+    }
+    let notesItem = btnDelete.parentElement;
+    notesItem.style.display = 'none';
+    noteDelete(btnDelete.id);
+
+});
+
+function noteDelete(noteid) {
+    myNotes.forEach(note => {
+        if (noteid == note.id) {
+            note.isDeleted = true;
+            saveNote(); // Save deleted status to local storage
+        }
+    });
+};
+
+
+
+
+
 
 // quill.setContents(myNotes[4].text)
 
