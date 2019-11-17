@@ -275,12 +275,12 @@ btnSave.addEventListener('click', () => {
         minutes,
         seconds,
     );
-    console.log(newNote.month);
+
     if (newNote.title == '') {
         console.log('Enter a title');
         return;
     }
-    console.log(newNote.month);
+
     sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date, newNote.id);
 
     myNotes.push(newNote);
@@ -299,7 +299,7 @@ document.addEventListener('click', function () {
     }
     let notesItem = btnDelete.parentElement;
     notesItem.style.display = 'none';
-    noteDelete(btnDelete.id);
+    noteDelete('btnDelete.id');
 
 });
 
