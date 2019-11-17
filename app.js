@@ -299,7 +299,7 @@ document.addEventListener('click', function () {
     }
     let notesItem = btnDelete.parentElement;
     notesItem.style.display = 'none';
-    noteDelete('btnDelete.id');
+    noteDelete(btnDelete.id);
 
 });
 
