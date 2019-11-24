@@ -349,12 +349,7 @@ document.addEventListener('click', function () {
 function noteStarred(notesItemId) {
     myNotes.forEach(note => {
         if (notesItemId == note.id) {
-            if (note.isStarred == true) {
-                note.isStarred = false;
-            } else {
-                note.isStarred = true;
-            }
-
+            note.isStarred = !note.isStarred;
             saveNote(); // Save starred status to local storage
         }
     });
@@ -368,24 +363,24 @@ const btnStarred = document.querySelector('.btn-nav_starred');
 
 btnStarred.addEventListener('click', () => {
 
-    let notesItems = [...notesList.children];
+    let noteItems = [...notesList.children];
 
     let emptyMsg = document.querySelector('.notes_empty-msg');
-    let faves = notesItems.filter(item => item.classList.contains('favorite'));
-    notesItems.filter(item => {
+    let favNoteItems = noteItems.filter(item => item.classList.contains('favorite'));
+    noteItems.filter(item => {
         if (!item.classList.contains('favorite')) {
-            item.classList.toggle('hidden');
+            item.classList.add('hidden');
         }
     })
 
-    if (faves.length == 0) {
+    if (favNoteItems.length == 0) {
         showEmptyMsg(emptyMsg);
     }
 
 });
 
 function showEmptyMsg(emptyMsg) {
-    emptyMsg.classList.toggle('show');
+    emptyMsg.classList.add('show');
 }
 
 
