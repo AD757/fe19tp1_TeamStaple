@@ -344,6 +344,10 @@ document.addEventListener('click', function () {
     let notesItem = btnFav.closest('.notes_item');
     notesItem.classList.toggle('favorite');
     noteStarred(notesItem.id);
+
+    if (notesList.classList.contains('favorite-notes')) {
+        notesItem.style.display = 'none';
+    }
 });
 
 function noteStarred(notesItemId) {
@@ -364,6 +368,8 @@ const btnStarred = document.querySelector('.btn-nav_starred');
 btnStarred.addEventListener('click', () => {
 
     let noteItems = [...notesList.children];
+
+    notesList.classList.add('favorite-notes');
 
     let emptyMsg = document.querySelector('.notes_empty-msg');
     let favNoteItems = noteItems.filter(item => item.classList.contains('favorite'));
