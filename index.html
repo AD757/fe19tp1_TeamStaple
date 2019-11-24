@@ -1,154 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Baloo|Lato:400,700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Baloo|Lato:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      id="themeStylesheet"
+      rel="stylesheet"
+      type="text/css"
+      href="css/style.css"
+    />
 
     <title>Quire</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <main class="app blur">
+      <div class="sidebar">
+        <!--------------- NAV --------------->
 
-        <div class="sidebar">
+        <nav class="page-nav">
+          <button class="nav_burger-menu">
+            <i class="btn-nav_burger-menu fas fa-bars"></i>
+          </button>
 
-            <!--------------- NAV --------------->
+          <div class="nav_logo">
+            <a href="index.html" class="nav-logo_text">Q</a>
+          </div>
 
-            <nav class="page-nav">
+          <ul class="nav_list">
+            <li class="nav_item">
+              <button class="btn-nav btn-nav_new-note">
+                <i class="btn-nav_icon fas fa-edit"></i>
+                <span class="btn-nav_text">New&nbsp;Note</span>
+              </button>
+            </li>
+            <li class="nav_item">
+              <button class="btn-nav btn-nav_my-notes">
+                <i class="btn-nav_icon fas fa-bars"></i>
+                <span class="btn-nav_text">My&nbsp;Notes</span>
+              </button>
+            </li>
+            <li class="nav_item">
+              <button class="btn-nav btn-nav_starred">
+                <i class="btn-nav_icon fas fa-star"></i>
+                <span class="btn-nav_text">Starred</span>
+              </button>
+            </li>
+            <li class="nav_item">
+              <button class="btn-nav btn-nav_themes">
+                <i class="btn-nav_icon fas fa-palette"></i>
+                <span class="btn-nav_text">Themes</span>
+              </button>
+            </li>
+          </ul>
 
-                <button class="nav_burger-menu">
-                    <i class="btn-nav_burger-menu fas fa-bars"></i>
-                </button>
+          <div class="nav_expand">
+            <p class="nav_about">About Quire</p>
+            <button class="btn_expand">
+              <i class="fas fa-angle-double-right"></i>
+            </button>
+          </div>
+        </nav>
 
-                <div class="nav_logo">
-                    <a href="index.html" class="nav-logo_text">Q</a>
-                </div>
+        <!--------------- NOTES TITLES --------------->
 
-                <ul class="nav_list">
-                    <li class="nav_item">
-                        <button class="btn-nav btn-nav_new-note">
-                            <i class="btn-nav_icon fas fa-edit"></i>
-                            <span class="btn-nav_text">New&nbsp;Note</span>
-                        </button>
-                    </li>
-                    <li class="nav_item">
-                        <button class="btn-nav btn-nav_my-notes">
-                            <i class="btn-nav_icon fas fa-bars"></i>
-                            <span class="btn-nav_text">My&nbsp;Notes</span>
-                        </button>
-                    </li>
-                    <li class="nav_item">
-                        <button class="btn-nav btn-nav_starred">
-                            <i class="btn-nav_icon fas fa-star"></i>
-                            <span class="btn-nav_text">Starred</span>
-                        </button>
-                    </li>
-                    <li class="nav_item">
-                        <button class="btn-nav btn-nav_themes">
-                            <i class="btn-nav_icon fas fa-palette"></i>
-                            <span class="btn-nav_text">Themes</span>
-                        </button>
-                    </li>
-                </ul>
+        <section class="notes">
+          <div class="notes_search">
+            <input type="search" class="search_input" placeholder="Search..." />
+          </div>
 
-                <div class="nav_expand">
-                    <p class="nav_about">About Quire</p>
-                    <button class="btn_expand">
-                        <i class="fas fa-angle-double-right"></i>
-                    </button>
-                </div>
-            </nav>
+          <ul class="notes_list"></ul>
 
-            <!--------------- NOTES TITLES --------------->
-
-            <section class="notes">
-
-                <div class="notes_search">
-                    <input type="search" class="search_input" placeholder="Search...">
-                </div>
-
-                <ul class="notes_list">
-                </ul>
-
-                <p class="notes_empty-msg">Nothing to show.</p>
-
-            </section>
-
-        </div>
-
-        <!--------------- MAIN CONTENT --------------->
-
-        <section class="main-content">
-            <section class="editor">
-
-                <div class="quill_title-container">
-                    <input class="quill_title" id="quill_title" placeholder="Title..." value="">
-                    <button class="quill_btn-save" type="button">Save</button>
-                </div>
-
-                <span class="quill_date">26th of December</span>
-
-                <!--- QUILL -->
-                <div id="editor">
-                </div>
-
-            </section>
+          <p class="notes_empty-msg">Nothing to show.</p>
         </section>
+      </div>
 
+      <!--------------- MAIN CONTENT --------------->
+
+      <section class="main-content">
+        <section class="editor">
+          <div class="quill_title-container">
+            <input
+              class="quill_title"
+              id="quill_title"
+              placeholder="Title..."
+              value=""
+            />
+            <button class="quill_btn-save" type="button">Save</button>
+          </div>
+          <!-- THEMES -->
+          <div id="toolbarBox">
+            <span class="quill_date">26th of December</span>
+            <div id="themes">
+              <form action="./" method="post">
+                <select name="themeSelect" for="theme" id="themeSelect">
+                  <option value="style">Default</option>
+                  <option value="dark">Dark</option>
+                  <option value="spring">Spring</option>
+                  <option value="autumn">Autumn</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <!--- QUILL -->
+          <div id="editor"></div>
+        </section>
+      </section>
     </main>
 
     <!--------------- POPUP --------------->
 
-
     <div class="popup_wrapper">
-
-        <div class="popup">
-            <div class="popup_close btnClose">
-                <i class="fas fa-times"></i>
-            </div>
-            <div class="popup_content">
-                <h2 class="popup_title">Quire</h2>
-                <h3 class="popup_description">Your number one app for taking notes</h3>
-                <p class="popup_text">Quire is an online note taking app that makes it easy for you to save information
-                    that needs to be saved.</p>
-                <div class="popup_features">
-                    <ul class="features_list">
-                        <li class="features_item">
-                            <img class="features_img" src="https://img.icons8.com/dusk/64/000000/create-new.png">
-                            <p class="features_description">Create and edit notes</p>
-                        </li>
-                        <li class="features_item">
-                            <img class="features_img" src="https://img.icons8.com/dusk/64/000000/add-to-favorites.png">
-                            <p class="features_description">Easily navigate to your favorite notes</p>
-                        </li>
-                        <li class="features_item">
-                            <img class="features_img" src="https://img.icons8.com/dusk/64/000000/print.png">
-                            <p class="features_description">Preview and print notes</p>
-                        </li>
-                    </ul>
-                </div>
-                <button class="popup_start btnClose">Get started</button>
-                <div class="popup_stop">
-                    <input class="popup_checkbox" type="checkbox" id="hidePopup" value="">
-                    <label class="popup_label" for="hidePopup">Don't show this message again</label>
-                </div>
-            </div>
+      <div class="popup">
+        <div class="popup_close btnClose">
+          <i class="fas fa-times"></i>
         </div>
+        <div class="popup_content">
+          <h2 class="popup_title">Quire</h2>
+          <h3 class="popup_description">
+            Your number one app for taking notes
+          </h3>
+          <p class="popup_text">
+            Quire is an online note taking app that makes it easy for you to
+            save information that needs to be saved.
+          </p>
+          <div class="popup_features">
+            <ul class="features_list">
+              <li class="features_item">
+                <img
+                  class="features_img"
+                  src="https://img.icons8.com/dusk/64/000000/create-new.png"
+                />
+                <p class="features_description">Create and edit notes</p>
+              </li>
+              <li class="features_item">
+                <img
+                  class="features_img"
+                  src="https://img.icons8.com/dusk/64/000000/add-to-favorites.png"
+                />
+                <p class="features_description">
+                  Easily navigate to your favorite notes
+                </p>
+              </li>
+              <li class="features_item">
+                <img
+                  class="features_img"
+                  src="https://img.icons8.com/dusk/64/000000/print.png"
+                />
+                <p class="features_description">Preview and print notes</p>
+              </li>
+            </ul>
+          </div>
+          <button class="popup_start btnClose">Get started</button>
+          <div class="popup_stop">
+            <input
+              class="popup_checkbox"
+              type="checkbox"
+              id="hidePopup"
+              value=""
+            />
+            <label class="popup_label" for="hidePopup"
+              >Don't show this message again</label
+            >
+          </div>
+        </div>
+      </div>
     </div>
-
 
     <div class="popup_blur"></div>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    <script src="app.js"></script>
-
-</body>
-
+    <script src="app.js" type="text/javascript"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+  </body>
 </html>
