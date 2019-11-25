@@ -331,36 +331,6 @@ function noteDelete(notesItemId) {
         }
     });
 };
-
-// Favourite Notes
-
-document.addEventListener('click', function () {
-    let btnFav = event.target;
-    if (!btnFav.classList.contains('notes_star')) {
-        return;
-    }
-
-    btnFav.classList.toggle('notes_starred');
-    let notesItem = btnFav.closest('.notes_item');
-    notesItem.classList.toggle('favorite');
-    noteStarred(notesItem.id);
-
-    if (notesList.classList.contains('favorite-notes')) {
-        notesItem.style.display = 'none';
-    }
-});
-
-function noteStarred(notesItemId) {
-    myNotes.forEach(note => {
-        if (notesItemId == note.id) {
-            note.isStarred = !note.isStarred;
-            saveNote(); // Save starred status to local storage
-        }
-    });
-}
-
-
-
 // ********* SHOW OR HIDE FAVORITES ********* //
 
 const btnStarred = document.querySelector('.btn-nav_starred');
@@ -388,6 +358,38 @@ btnStarred.addEventListener('click', () => {
 function showEmptyMsg(emptyMsg) {
     emptyMsg.classList.add('show');
 }
+
+
+// Favourite Notes
+
+document.addEventListener('click', function () {
+    let btnFav = event.target;
+    if (!btnFav.classList.contains('notes_star')) {
+        return;
+    }
+
+    btnFav.classList.toggle('notes_starred');
+    let notesItem = btnFav.closest('.notes_item');
+    notesItem.classList.toggle('favorite');
+    noteStarred(notesItem.id);
+
+    if (notesList.classList.contains('favorite-notes')) {
+        btnStarred.click();
+    }
+});
+
+function noteStarred(notesItemId) {
+    myNotes.forEach(note => {
+        if (notesItemId == note.id) {
+            note.isStarred = !note.isStarred;
+            saveNote(); // Save starred status to local storage
+        }
+    });
+}
+
+
+
+
 
 
 // quill.setContents(myNotes[4].text)
