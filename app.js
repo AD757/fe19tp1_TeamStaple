@@ -72,66 +72,92 @@ btnExpand.addEventListener('click', () => {
 const btnBurger = document.querySelector('.nav_burger-menu');
 const btnNavTxt = document.querySelectorAll('.btn-nav_text');
 const navList = document.querySelector('.nav_list');
-const toolbar = document.querySelector('.toolbar');
 
-btnBurger.addEventListener('click', () => {
-    navList.classList.toggle('nav-list_show');
-    toolbar.classList.toggle('toolbar_hide');
-    btnNavTxt.forEach((txt) => {
-        if (navList.classList.contains('nav-list_show')) {
-            txt.style.display = 'block';
-        } else {
-            txt.style.display = 'none';
-        }
-        
-    })
-})
+const allNotes = document.querySelector('.notes');
+const textEditor = document.querySelector('.main-content');
 
-// ********* ADD TO FAVORITES ********* //
-const notesList = document.querySelector('.notes_list');
-const notesItems = [...notesList.children];
-const btnStarred = document.querySelector('.btn-nav_starred');
+const mqMobile = window.matchMedia("(max-width: 576px)");
+const mqTablet = window.matchMedia("(max-width: 780px)");
 
-const emptyMsg = document.querySelector('.notes_empty-msg');
+pageNav.addEventListener('click', e => {
 
-function showEmptyMsg() {
-    emptyMsg.classList.toggle('show');
-}
+    /// *** BURGER MENU *** ///
+    if (e.target.classList.contains('nav_burger-menu') || e.target.classList.contains('btn-nav_burger-menu')) {
 
-// Mark an item as a Favorite
-notesList.addEventListener('click', e => {
-    if (e.target.classList.contains('notes_star')) {
-        e.target.classList.toggle('notes_starred');
-        if (!e.target.parentNode.parentNode.classList.contains('favorite')) {
-            e.target.parentNode.parentNode.classList.add('favorite');
-        } else {
-            e.target.parentNode.parentNode.classList.remove('favorite');
+        navList.classList.toggle('nav-list_show');
+
+        if (mqMobile.matches) {
+            btnNavTxt.forEach((txt) => {
+                if (navList.classList.contains('nav-list_show')) {
+                    txt.style.display = 'block';
+                } else {
+                    txt.style.display = 'none';
+                }
+            })
         }
     }
-});
 
-// ********* SHOW OR HIDE FAVORITES ********* //
+    /// *** SHOW ALL NOTES *** ///
+    if (e.target.classList.contains('btn-nav_my-notes') || e.target.parentNode.classList.contains('btn-nav_my-notes')) {
 
-btnStarred.addEventListener('click', () => {
+        if (mqMobile.matches) {
+            navList.classList.toggle('nav-list_show');
+            allNotes.classList.remove('hidden');
+            textEditor.classList.remove('show');
+            allNotes.classList.add('show');
+            textEditor.classList.add('hidden');
+        } else if (mqTablet.matches) {
+            allNotes.classList.remove('hidden');
+            allNotes.classList.toggle('show');
+            textEditor.classList.add('show');
+        }
+
+    }
+
+    /// *** CREATE A NEW NOTE *** ///
+    if (e.target.classList.contains('btn-nav_new-note') || e.target.parentNode.classList.contains('btn-nav_new-note')) {
+        if (mqMobile.matches) {
+            navList.classList.toggle('nav-list_show');
+            allNotes.classList.remove('show');
+            textEditor.classList.remove('hidden');
+            allNotes.classList.add('hidden');
+            textEditor.classList.add('show');
+        } else if (mqTablet.matches) {
+            allNotes.classList.remove('show');
+        }
+    }
     
-    const faves = notesItems.filter(item => item.classList.contains('favorite'));
-
-    notesItems.filter(item => {
-        if (!item.classList.contains('favorite')) {
-            item.classList.toggle('hidden');
-        }
-    })
-
-    if (faves.length == 0) {
-        showEmptyMsg();
-    }
-
 })
 
 // ********* QUILL ********* //
-const quill = new Quill('#editor', {
+var toolbarOptions = [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [ 'link', 'image'],
+  ];
+
+ const quill = new Quill('#editor', {
+    modules: {
+      toolbar: toolbarOptions
+    },
     theme: 'snow',
     placeholder: 'Type your note here...',
+  });
+
+// ***** QUILL toolbar, added print button ******
+// appends the HTML
+const span = document.querySelector(
+    "body > main > section > section > div.ql-toolbar.ql-snow > span:nth-child(4)"
+);
+span.innerHTML += `<button><i class="btn_print fas fa-print"></i></button>`;
+// creates new class
+const printBtn = document.querySelector(".btn_print");
+
+// //PRINT FUNCTION
+printBtn.addEventListener("click", function(e) {
+    console.log(e.target)
+    document.printBtn = window.print();
 });
 
 // ********* LOCAL STORAGE ********* //
@@ -148,20 +174,29 @@ function saveNote() {
 function loadNotes() {
 
     myNotes = JSON.parse(localStorage.getItem("savedNotes"));
-        if (myNotes === null) {
-            myNotes = [];
-        }
+    
+    if (myNotes === null) {
+        myNotes = [];
+    }
+
+    return myNotes;
 
 }
 
 loadNotes();
+
+// ********* HIDES EMPTY NOTES ********* //
+
+myNotes = myNotes.filter(note => note.title !== '' && note.preview !== '\n')
+
+console.log(myNotes)
 
 // ********* DATES ********* //
 
 const newDate = new Date();
 const noteDate = document.querySelector('.quill_date');
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // ********* SHOW DATE IN EDITOR ********* //
 
@@ -171,14 +206,16 @@ noteDate.innerHTML = `
 
 // ********* FILL IN SIDEBAR NOTES ********* //
 
-const sidebarNotes = (title, preview, month, date) => { // need id
+const notesList = document.querySelector('.notes_list');
+const sidebarNotes = (id, title, preview, month, date) => { // need id
 
-    if (preview.length > 50) {
+    if (preview.length >= 50) {
         preview = preview.substring(0,50) + "...";
     }
 
     notesList.insertAdjacentHTML('afterbegin', `
-        <li class="notes_item">
+        <li class="notes_item" id="` + id + `">
+        <button class="notes_item-delete"></button>
         <div class="notes_info">
             <div class="notes-date">
             <span class="notes_date-month">` + months[month].substr(0,3) + `</span>
@@ -195,22 +232,22 @@ const sidebarNotes = (title, preview, month, date) => { // need id
   }
 
 myNotes.forEach(note => {
-    
-    sidebarNotes(note.title, note.preview, note.month, note.date);
-
+    if (!note.isDeleted == true) { // Check for deleted items
+        sidebarNotes(note.id, note.title, note.preview, note.month, note.date);
+     }
 })
 
 
 // ********* NOTE CONSTRUCTOR ********* //
 
 class Note {
-    constructor(title, text, preview, isStarred, isDeleted, id, year, month, date, hours, minutes, seconds) {
+    constructor(id, title, text, preview, isStarred, isDeleted, year, month, date, hours, minutes, seconds) {
+        this.id = id
         this.title = title
         this.text = text // Delta, for quill use only
         this.preview = preview
         this.isStarred = isStarred
         this.isDeleted = isDeleted
-        this.id = id
         //date
         this.year = year
         this.month = month
@@ -225,30 +262,25 @@ class Note {
 
 //New Note Button
 const btnCreate = document.querySelector('.btn-nav_new-note');
-
 //Save Button
 const btnSave = document.querySelector('.quill_btn-save');
 //Title
 const quillTitle = document.querySelector('.quill_title');
 //Text
 const quillText = quill.container;
+let currentNote;
 
+//Oncklick event on NewNote button
 btnCreate.addEventListener('click', () => {
-    quillTitle.value = '';
-    quill.setText('');
-})
-
-//Oncklick event on Save button
-btnSave.addEventListener('click', () => {
 
     //create references for the object values
+    let id = Date.now();
     let title = quillTitle.value;
     //let text = quillText.textContent;
     let text = quill.getContents();
-    let preview = quill.getText(0, 30);
-    let isStarred = 'false';
-    let isDeleted = 'false';
-    let id = Date.now();
+    let preview = quill.getText(0, 50);
+    let isStarred = false;
+    let isDeleted = false;
     let year = newDate.getFullYear();
     let month = newDate.getMonth();
     let date = newDate.getDate();
@@ -258,12 +290,12 @@ btnSave.addEventListener('click', () => {
 
     //create new Note Object
     const newNote = new Note (
+        id,
         title,
         text,
         preview,
         isStarred,
         isDeleted,
-        id,
         //date
         year,
         month,
@@ -273,113 +305,154 @@ btnSave.addEventListener('click', () => {
         seconds,
     );
 
-    if (newNote.title == '') {
-        console.log('Enter a title');
-        return; 
-    }
+    quillTitle.value = '';
+    quill.setText('');
 
-    sidebarNotes(newNote.title, newNote.preview, newNote.month, newNote.date);
+    loadNotes();
 
     myNotes.push(newNote);
 
     saveNote();
 
+    currentNote = newNote.id;
+
 });
 
-// quill.setContents(myNotes[4].text)
-
-
-
-
-// ********* CREATE A NEW NOTE ********* //
-
-/*
-class Note {
-    constructor(title, text, isStarred, isDeleted, id, year, month, date, hours, minutes, seconds) {
-        this.title = title
-        this.text = text
-        this.isStarred = isStarred
-        this.isDeleted = isDeleted
-        this.id = id
-        //date
-        this.year = year
-        this.month = month
-        this.date = date
-        this.hours = hours
-        this.minutes = minutes
-        this.seconds = seconds
-    }
-}
-
-//All the notes Array
-const notes = document.querySelectorAll('.notes_item');
-const notesArr = [...document.querySelectorAll('.notes_item')];
-
-console.log(notesArr);
-
-// *** NOTES *** //
-
-const btnSave = document.querySelector('.quill_btn-save');
-
-//create reference for the Title input field
-const inputTitle = document.querySelector('.quill_title').value;
-//create a new quill key:value for Title and assign it to Title input value
-quill.title = inputTitle;
-const quillTitle = quill.title;
-const quillText = quill.container.textContent;
-
-
+//Oncklick event on Save button
 btnSave.addEventListener('click', () => {
 
-    console.log(inputTitle);
+    loadNotes();
 
-    let title = quillTitle;
-    let text = quillText;
-    let isStarred = 'false';
-    let isDeleted = 'false';
-    let id = Date.now();
+    const notesLS = loadNotes();
 
-    const newNote = new Note (
-        title,
-        text,
-        isStarred,
-        isDeleted,
-        id,
-    );
-
-    if (newNote.title == '') {
-        /* inputTitle.insertAdjacentHTML('afterend', `
-            <p>*Enter title</p>
-        `)
+    /* if (newNote.title == '') {
+        console.log('Enter a title');
         return; 
-    }
+    } */ 
 
-    if (newNote.text.length > 30) {
-        newNote.text = newNote.text.substring(0,50) + "...";
-    }
+    myNotes.forEach(note => {
 
-    notesList.insertAdjacentHTML('afterbegin', `
-        <li class="notes_item">
-            <div class="notes_info">
-                <div class="notes-date">
-                <span class="notes_date-month">Oct</span>
-                <span class="notes_date-day">14</span>
-                </div>
-                <i class="notes_star far fa-star"></i>
-            </div>
-            <div class="notes_content">
-                <h3 class="notes_title">${newNote.title}</h3>
-                <p class="notes_text">${newNote.text}</p>
-            </div>
-        </li>
-    `);
+        if (note.id == currentNote) {
+            note.title = quillTitle.value;
+            note.preview = quill.getText(0, 50);
+            note.text = quill.getContents();
+            year = newDate.getFullYear();
+            month = newDate.getMonth();
+            date = newDate.getDate();
 
-    myNotes.push(newNote);
+            if (note.title == '') {
+                console.log('Enter a title');
+                return;
+            }
 
-    notesArr.push(newNote);
+            sidebarNotes(note.id, note.title, note.preview, note.month, note.date);
+            saveNote();
 
-    console.log(notesArr);
+        }
+        
+    })
+    
+    
+
+    //sidebarNotes(newNote.id, newNote.title, newNote.preview, newNote.month, newNote.date);
 
 });
 
-*/
+// ********* OPEN NOTE ********* //
+
+
+
+
+// ********* STAR NOTE ********* //
+
+const btnStar = document.querySelectorAll('.notes_star');
+
+btnStar.forEach((star) => {
+
+    star.addEventListener('click', () => {
+
+        const noteID = star.parentNode.parentNode.id;
+        console.log(noteID);
+
+        for (let i = 0; i < myNotes.length; i++) {
+            if (myNotes[i].id == noteID) {
+                console.log(myNotes[i]);
+                if (myNotes[i].isStarred == false) {
+                    myNotes[i].isStarred = true;
+                }
+            }
+        }
+
+    })
+
+})
+
+
+// ********* DELETE NOTE ********* //
+
+
+document.addEventListener('click', function () {
+    let btnDelete = event.target;
+    if (!btnDelete.classList.contains('notes_item-delete')) {
+        return;
+    }
+    let notesItem = btnDelete.parentElement;
+    notesItem.style.display = 'none';
+    noteDelete(btnDelete.id);
+
+});
+
+function noteDelete(noteid) {
+    myNotes.forEach(note => {
+        if (noteid == note.id) {
+            note.isDeleted = true;
+            saveNote(); // Save deleted status to local storage
+        }
+    });
+};
+
+// ********* OPEN NOTE ********* //
+
+notesListArr = [...notesList.children];
+
+notesListArr.forEach(note => {
+    note.addEventListener('click', (e) => {
+
+        console.log(e.target);
+
+        for (let i = 0; i < myNotes.length; i++) {
+            if (e.target.id == myNotes[i].id || e.target.parentNode.id == myNotes[i].id || e.target.parentNode.parentNode.id == myNotes[i].id) {
+                quillTitle.value = myNotes[i].title;
+                quill.setContents(myNotes[i].text);
+                currentNote = myNotes[i].id;
+                console.log(currentNote);
+            }
+        }
+    })
+})
+
+// ******** LOAD THEMES ********* //
+function loadTheme() {
+let t = localStorage.getItem("theme");
+console.log("loadtheme ran, theme: " + t);
+    if (t === null) {
+        t = "style";
+    }
+    return t;
+}
+
+applyTheme(loadTheme());
+
+// *********** THEMES *********** //
+themeSelect = document.getElementById("themeSelect");
+themeStylesheet = document.getElementById("themeStylesheet");
+themeSelect.addEventListener("change", function() {
+    applyTheme(this.value);
+    console.log(this.value);
+    localStorage.setItem("theme", this.value);
+});
+
+function applyTheme(theme) {
+    themeStylesheet.setAttribute("href", "css/" + theme + ".css");
+    themeSelect.value = theme;
+}

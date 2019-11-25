@@ -32,6 +32,7 @@ p,h1,h2,h3,h4,h5,h6 {
     height: 100vh;
     min-width: 60px;
     background-color: #42A5F5;
+    z-index: 100;
 }
 
 /***************   PAGE LOGO   ***************/
@@ -162,6 +163,7 @@ p,h1,h2,h3,h4,h5,h6 {
     display: flex;
     align-items: center;
     background-color: #f6f6f6;
+    z-index: 55;
 }
 
 .search_input {
@@ -198,7 +200,9 @@ p,h1,h2,h3,h4,h5,h6 {
 }
 
 .notes_item {
+    position: relative;
     padding: 15px;
+    padding-right: 35px;
     display: flex;
     color: #666;
     cursor: pointer;
@@ -207,6 +211,24 @@ p,h1,h2,h3,h4,h5,h6 {
 .notes_item:hover {
     background-color: #fff;
 
+}
+
+.notes_item-delete {
+    position: absolute;
+    right: 8px;
+    top: 36px;
+    background: transparent url(css/images/delete_btn.png) no-repeat top;
+    width: 32px;
+    height: 32px;
+    background-position: center center;
+    background-size: 42px;
+    border: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.notes_item:hover .notes_item-delete {
+    opacity: 0.5;
 }
 
 .notes_content {
@@ -399,6 +421,27 @@ p,h1,h2,h3,h4,h5,h6 {
     content: 'Enter a title';
 }
 
+.btn_print {
+    font-size: 13px;
+}
+
+/************* THEMES ****************/
+
+#themes {
+    padding: 0;
+    margin-top: 10px;
+  }
+  #toolbarBox {
+    display: flex;
+    justify-content: space-between;
+  }
+  #themeSelect {
+    font-family: "Lato", sans-serif;
+    font-size: 13px;
+    outline: 0;
+    height: 20px;
+  }
+
 /***************   POPUP   ***************/
 
 .blur {
@@ -521,17 +564,6 @@ p,h1,h2,h3,h4,h5,h6 {
     text-align: center;
 }
 
-
-/***************   OTHER   ***************/
-
-.hidden {
-    display: none;
-}
-
-.show {
-    display: block;
-}
-
 /***************   TABLET VIEW   ***************/
 
 @media (max-width: 992px) {
@@ -546,6 +578,9 @@ p,h1,h2,h3,h4,h5,h6 {
 
     .notes {
         display: none;
+        position: fixed;
+        margin-left: 60px;
+        z-index: 50;
     }
     
     .main-content {
@@ -573,11 +608,34 @@ p,h1,h2,h3,h4,h5,h6 {
         height: 60px;
         flex-direction: row;
     }
+
+    .notes {
+        width: 100%;
+        position: unset;
+        margin: 0;
+        margin-top: 60px;
+    }
+
+    .notes_search {
+        width: 100%;
+        
+    }
     
     .main-content {
         width: 100%;
-        margin-top: 60px;
-        padding: 0 25px;
+        margin-top: 70px;
+        padding: 0;
+    }
+
+    .editor {
+        height: 70%;
+    }
+
+    .quill_title-container,
+    .quill_date,
+    .ql-toolbar.ql-snow,
+    .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        margin: 0 25px;
     }
 
     .nav_list {
@@ -614,4 +672,14 @@ p,h1,h2,h3,h4,h5,h6 {
         left: 50%;
         transform: translateX(-50%);
     }
+}
+
+/***************   OTHER   ***************/
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: block;
 }

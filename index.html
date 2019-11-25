@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
+    <link id="themeStylesheet" rel="stylesheet" type="text/css" href="css/style.css"/>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Baloo|Lato:400,700&display=swap" rel="stylesheet">
@@ -50,8 +50,8 @@
                     </li>
                     <li class="nav_item">
                         <button class="btn-nav btn-nav_themes">
-                            <i class="btn-nav_icon fas fa-palette"></i>
-                            <span class="btn-nav_text">Themes</span>
+                            <i class="btn-nav_icon fas fa-trash-alt"></i>
+                            <span class="btn-nav_text">Deleted</span>
                         </button>
                     </li>
                 </ul>
@@ -86,12 +86,27 @@
         <section class="main-content">
             <section class="editor">
 
+
+
                 <div class="quill_title-container">
                     <input class="quill_title" id="quill_title" placeholder="Title..." value="">
                     <button class="quill_btn-save" type="button">Save</button>
                 </div>
-                
-                <span class="quill_date">26th of December</span>
+
+                <!-- THEMES -->
+                <div id="toolbarBox">
+                    <span class="quill_date">26th of December</span>
+                    <div id="themes">
+                    <form action="./" method="post">
+                        <select name="themeSelect" for="theme" id="themeSelect">
+                        <option value="style">Default</option>
+                        <option value="dark">Dark</option>
+                        <option value="spring">Spring</option>
+                        <option value="autumn">Autumn</option>
+                        </select>
+                    </form>
+                    </div>
+                </div>
                 
                 <!--- QUILL -->
                 <div id="editor">
