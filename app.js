@@ -19,13 +19,13 @@ popupClose.forEach((btn) => {
         popup.style.display = "none";
         app.classList.remove('blur');
 
-    // ********* CHECKBOX ********* //
-    let stopPopup = document.getElementById("hidePopup");
-    if (stopPopup.checked == true || stopPopup.checked == 'true') {
-        console.log('checkbox checked');
-        // Saving the checkbox status in LS
-        localStorage.setItem('popupShown', 'true');
-    }
+        // ********* CHECKBOX ********* //
+        let stopPopup = document.getElementById("hidePopup");
+        if (stopPopup.checked == true || stopPopup.checked == 'true') {
+            console.log('checkbox checked');
+            // Saving the checkbox status in LS
+            localStorage.setItem('popupShown', 'true');
+        }
     })
 });
 
@@ -65,7 +65,7 @@ btnExpand.addEventListener('click', () => {
             text.style.display = 'none';
         })
     }
-    
+
 })
 
 // ********* BURGER MENU ********* //
@@ -147,16 +147,29 @@ var toolbarOptions = [
 
 // ***** QUILL toolbar, added print button ******
 // appends the HTML
-const span = document.querySelector(
-    "body > main > section > section > div.ql-toolbar.ql-snow > span:nth-child(4)"
-);
-span.innerHTML += `<button><i class="btn_print fas fa-print"></i></button>`;
+const quillToolbar = document.querySelector(".ql-toolbar.ql-snow");
+console.log(quillToolbar);
+quillToolbar.insertAdjacentHTML('beforeend', `
+<span class="ql-formats">
+    <form id="themes">
+        <select name="themeSelect" for="theme" id="themeSelect">
+            <option value="style">Default</option>
+            <option value="dark">Dark</option>
+            <option value="spring">Spring</option>
+            <option value="autumn">Autumn</option>
+        </select>
+    </form>
+</span>
+<span class="ql-formats">
+    <button><i class="btn_print fas fa-print"></i></button>
+</span>
+`);
 // creates new class
 const printBtn = document.querySelector(".btn_print");
 
 // //PRINT FUNCTION
 printBtn.addEventListener("click", function(e) {
-    console.log(e.target)
+    console.log(e.target);
     document.printBtn = window.print();
 });
 
@@ -196,7 +209,7 @@ console.log(myNotes)
 const newDate = new Date();
 const noteDate = document.querySelector('.quill_date');
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 // ********* SHOW DATE IN EDITOR ********* //
 
@@ -207,18 +220,36 @@ noteDate.innerHTML = `
 // ********* FILL IN SIDEBAR NOTES ********* //
 
 const notesList = document.querySelector('.notes_list');
-const sidebarNotes = (id, title, preview, month, date) => { // need id
+const sidebarNotes = (id, title, preview, month, date, isStarred) => { // need id
 
-    if (preview.length >= 50) {
-        preview = preview.substring(0,50) + "...";
+    if (preview.length > 50) {
+        preview = preview.substring(0, 50) + "...";
     }
 
-    notesList.insertAdjacentHTML('afterbegin', `
-        <li class="notes_item" id="` + id + `">
+    if (myNotes.isStarred) {
+        notesList.insertAdjacentHTML('afterbegin', `
+        <li class="notes_item favorite" id=` + id + `>
         <button class="notes_item-delete"></button>
         <div class="notes_info">
             <div class="notes-date">
-            <span class="notes_date-month">` + months[month].substr(0,3) + `</span>
+            <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
+            <span class="notes_date-day">` + date + `</span>
+            </div>
+            <i class="notes_star far fa-star notes_starred"></i>
+        </div>
+        <div class="notes_content">
+            <h3 class="notes_title">` + title + `</h3>
+            <p class="notes_text">` + preview + `</p>
+        </div>
+        </li>
+    `)
+    } else {
+        notesList.insertAdjacentHTML('afterbegin', `
+        <li class="notes_item" id=` + id + `>
+        <button class="notes_item-delete"></button>
+        <div class="notes_info">
+            <div class="notes-date">
+            <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
             <span class="notes_date-day">` + date + `</span>
             </div>
             <i class="notes_star far fa-star"></i>
@@ -229,25 +260,29 @@ const sidebarNotes = (id, title, preview, month, date) => { // need id
         </div>
         </li>
     `)
-  }
+    }
+
+}
 
 myNotes.forEach(note => {
+
     if (!note.isDeleted == true) { // Check for deleted items
-        sidebarNotes(note.id, note.title, note.preview, note.month, note.date);
-     }
-})
+        sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.id, note.isStarred);
+    }
+
+});
 
 
 // ********* NOTE CONSTRUCTOR ********* //
 
 class Note {
     constructor(id, title, text, preview, isStarred, isDeleted, year, month, date, hours, minutes, seconds) {
-        this.id = id
         this.title = title
         this.text = text // Delta, for quill use only
         this.preview = preview
         this.isStarred = isStarred
         this.isDeleted = isDeleted
+        this.id = id
         //date
         this.year = year
         this.month = month
@@ -321,10 +356,6 @@ btnCreate.addEventListener('click', () => {
 //Oncklick event on Save button
 btnSave.addEventListener('click', () => {
 
-    loadNotes();
-
-    const notesLS = loadNotes();
-
     /* if (newNote.title == '') {
         console.log('Enter a title');
         return; 
@@ -345,71 +376,92 @@ btnSave.addEventListener('click', () => {
                 return;
             }
 
-            sidebarNotes(note.id, note.title, note.preview, note.month, note.date);
+            sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.isStarred);
             saveNote();
 
         }
         
     })
-    
-    
-
-    //sidebarNotes(newNote.id, newNote.title, newNote.preview, newNote.month, newNote.date);
 
 });
 
-// ********* OPEN NOTE ********* //
-
-
-
-
-// ********* STAR NOTE ********* //
-
-const btnStar = document.querySelectorAll('.notes_star');
-
-btnStar.forEach((star) => {
-
-    star.addEventListener('click', () => {
-
-        const noteID = star.parentNode.parentNode.id;
-        console.log(noteID);
-
-        for (let i = 0; i < myNotes.length; i++) {
-            if (myNotes[i].id == noteID) {
-                console.log(myNotes[i]);
-                if (myNotes[i].isStarred == false) {
-                    myNotes[i].isStarred = true;
-                }
-            }
-        }
-
-    })
-
-})
-
-
 // ********* DELETE NOTE ********* //
-
 
 document.addEventListener('click', function () {
     let btnDelete = event.target;
     if (!btnDelete.classList.contains('notes_item-delete')) {
         return;
     }
-    let notesItem = btnDelete.parentElement;
+    let notesItem = btnDelete.closest('.notes_item');
     notesItem.style.display = 'none';
-    noteDelete(btnDelete.id);
+    noteDelete(notesItem.id);
 
 });
 
-function noteDelete(noteid) {
+function noteDelete(notesItemId) {
     myNotes.forEach(note => {
-        if (noteid == note.id) {
+        if (notesItemId == note.id) {
             note.isDeleted = true;
             saveNote(); // Save deleted status to local storage
         }
     });
 };
+
+// ********* SHOW OR HIDE FAVORITES ********* //
+
+const btnStarred = document.querySelector('.btn-nav_starred');
+
+btnStarred.addEventListener('click', () => {
+
+    let noteItems = [...notesList.children];
+
+    notesList.classList.add('favorite-notes');
+
+    let emptyMsg = document.querySelector('.notes_empty-msg');
+    let favNoteItems = noteItems.filter(item => item.classList.contains('favorite'));
+    noteItems.filter(item => {
+        if (!item.classList.contains('favorite')) {
+            item.classList.add('hidden');
+        }
+    })
+
+    if (favNoteItems.length == 0) {
+        showEmptyMsg(emptyMsg);
+    }
+
+});
+
+function showEmptyMsg(emptyMsg) {
+    emptyMsg.classList.add('show');
+}
+
+
+// Favourite Notes
+
+document.addEventListener('click', function () {
+    let btnFav = event.target;
+    if (!btnFav.classList.contains('notes_star')) {
+        return;
+    }
+
+    btnFav.classList.toggle('notes_starred');
+    let notesItem = btnFav.closest('.notes_item');
+    notesItem.classList.toggle('favorite');
+    noteStarred(notesItem.id);
+
+    if (notesList.classList.contains('favorite-notes')) {
+        btnStarred.click();
+    }
+});
+
+function noteStarred(notesItemId) {
+    myNotes.forEach(note => {
+        if (notesItemId == note.id) {
+            note.isStarred = !note.isStarred;
+            saveNote(); // Save starred status to local storage
+        }
+    });
+}
 
 // ********* OPEN NOTE ********* //
 
@@ -433,16 +485,16 @@ notesListArr.forEach(note => {
 
 // ******** LOAD THEMES ********* //
 function loadTheme() {
-let t = localStorage.getItem("theme");
-console.log("loadtheme ran, theme: " + t);
-    if (t === null) {
-        t = "style";
+    let t = localStorage.getItem("theme");
+    console.log("loadtheme ran, theme: " + t);
+        if (t === null) {
+            t = "style";
+        }
+        return t;
     }
-    return t;
-}
-
+    
 applyTheme(loadTheme());
-
+    
 // *********** THEMES *********** //
 themeSelect = document.getElementById("themeSelect");
 themeStylesheet = document.getElementById("themeStylesheet");

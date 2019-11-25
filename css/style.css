@@ -217,7 +217,7 @@ p,h1,h2,h3,h4,h5,h6 {
     position: absolute;
     right: 8px;
     top: 36px;
-    background: transparent url(css/images/delete_btn.png) no-repeat top;
+    background: transparent url(images/delete_btn.png) no-repeat top;
     width: 32px;
     height: 32px;
     background-position: center center;
@@ -429,7 +429,6 @@ p,h1,h2,h3,h4,h5,h6 {
 
 #themes {
     padding: 0;
-    margin-top: 10px;
   }
   #toolbarBox {
     display: flex;
@@ -440,6 +439,16 @@ p,h1,h2,h3,h4,h5,h6 {
     font-size: 13px;
     outline: 0;
     height: 20px;
+  }
+
+/************* Print button ****************/
+
+.print {
+    padding: 10px;
+    margin-right: 15px;
+    margin-left: 10px;
+    font-size: 15px;
+    outline: 0;
   }
 
 /***************   POPUP   ***************/
