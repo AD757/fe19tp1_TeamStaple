@@ -80,7 +80,7 @@ const mqMobile = window.matchMedia("(max-width: 576px)");
 const mqTablet = window.matchMedia("(max-width: 780px)");
 
 pageNav.addEventListener('click', e => {
-
+let button = e.target.closest("button")
     /// *** BURGER MENU *** ///
     if (e.target.classList.contains('nav_burger-menu') || e.target.classList.contains('btn-nav_burger-menu')) {
 
@@ -96,9 +96,9 @@ pageNav.addEventListener('click', e => {
             })
         }
     }
-
+    console.log(button)
     /// *** SHOW ALL NOTES *** ///
-    if (e.target.classList.contains('btn-nav_my-notes') || e.target.parentNode.classList.contains('btn-nav_my-notes')) {
+    if (button.classList.contains('btn-nav_my-notes')) {
 
         if (mqMobile.matches) {
             navList.classList.toggle('nav-list_show');
@@ -115,7 +115,7 @@ pageNav.addEventListener('click', e => {
     }
 
     /// *** CREATE A NEW NOTE *** ///
-    if (e.target.classList.contains('btn-nav_new-note') || e.target.parentNode.classList.contains('btn-nav_new-note')) {
+    if (button.classList.contains('btn-nav_new-note')) {
         if (mqMobile.matches) {
             navList.classList.toggle('nav-list_show');
             allNotes.classList.remove('show');
@@ -153,10 +153,10 @@ quillToolbar.insertAdjacentHTML('beforeend', `
 <span class="ql-formats">
     <form id="themes">
         <select name="themeSelect" for="theme" id="themeSelect">
-            <option value="style">Default</option>
-            <option value="dark">Dark</option>
-            <option value="spring">Spring</option>
-            <option value="autumn">Autumn</option>
+            <option value="style">Default Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="spring">Spring Theme</option>
+            <option value="autumn">Autumn Theme</option>
         </select>
     </form>
 </span>
@@ -221,12 +221,12 @@ noteDate.innerHTML = `
 
 const notesList = document.querySelector('.notes_list');
 const sidebarNotes = (id, title, preview, month, date, isStarred) => { // need id
-
-    if (preview.length > 50) {
+console.log("id: " + id + " isStarred: " + isStarred);
+    if (preview.length >= 50) {
         preview = preview.substring(0, 50) + "...";
     }
 
-    if (myNotes.isStarred) {
+    if (isStarred) {
         notesList.insertAdjacentHTML('afterbegin', `
         <li class="notes_item favorite" id=` + id + `>
         <button class="notes_item-delete"></button>
@@ -267,7 +267,7 @@ const sidebarNotes = (id, title, preview, month, date, isStarred) => { // need i
 myNotes.forEach(note => {
 
     if (!note.isDeleted == true) { // Check for deleted items
-        sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.id, note.isStarred);
+        sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.isStarred);
     }
 
 });
@@ -298,7 +298,7 @@ class Note {
 //New Note Button
 const btnCreate = document.querySelector('.btn-nav_new-note');
 //Save Button
-const btnSave = document.querySelector('.quill_btn-save');
+const btnSave = document.querySelector('.action-btn_save');
 //Title
 const quillTitle = document.querySelector('.quill_title');
 //Text
@@ -455,6 +455,7 @@ document.addEventListener('click', function () {
 });
 
 function noteStarred(notesItemId) {
+    console.log("noteStarred ran with id: " + notesItemId)
     myNotes.forEach(note => {
         if (notesItemId == note.id) {
             note.isStarred = !note.isStarred;
@@ -508,3 +509,17 @@ function applyTheme(theme) {
     themeStylesheet.setAttribute("href", "css/" + theme + ".css");
     themeSelect.value = theme;
 }
+
+// *********** FLOATING ACTION MENU *********** //
+
+const actionMenu = document.querySelector('.action-menu');
+const actionBtns = document.querySelectorAll('.action-btn');
+
+actionMenu.addEventListener('click', (e) => {
+
+    if (e.target.classList.contains('action-btn_prime') || e.target.parentNode.classList.contains('action-btn_prime')) {
+        actionBtns.forEach(btn => {
+            btn.classList.toggle('action-btn_shown');
+        })
+    }
+})
