@@ -331,14 +331,14 @@ h6 {
   padding: 10px 0 !important;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border: none;
+  background: #f0c0b8;
 }
-
-/*.ql-toolbar.ql-snow,*/
 
 .ql-container.ql-snow {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  /*border: 0 !important;*/
+  border: 0 !important;
 }
 
 .ql-editor {
@@ -389,9 +389,9 @@ ul {
   font-size: 24px;
   letter-spacing: 0.5px;
   color: #bc6658;
-  /*border: 0;*/
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  border-radius: 3px;
   outline: 0;
 }
 
@@ -562,16 +562,11 @@ ul {
   font-weight: 700;
   text-align: center;
 }
-/* Print and theme button */
+/* Print button */
 .print {
   padding: 10px;
   margin-right: 15px;
   margin-left: 10px;
-  font-size: 15px;
-  outline: 0;
-}
-.themes {
-  padding: 10px;
   font-size: 15px;
   outline: 0;
 }
@@ -625,7 +620,7 @@ ul {
   }
   .btn-nav:hover,
   .btn-nav:focus {
-    background-color: #fff;
+    background-color: #e8b786;
   }
 }
 
@@ -636,6 +631,49 @@ ul {
     flex-direction: column;
   }
   .page-nav {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: #bc6658;
+    z-index: 100;
+  }
+  .nav_expand {
+    display: none;
+  }
+  .main-content {
+    width: 100%;
+    margin-top: 60px;
+    padding: 0 25px;
+  }
+  .nav_list {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+  }
+  .nav_item {
+    padding: 0px;
+  }
+  .nav-logo_text {
+    position: fixed;
+    right: 5%;
+    transform: translateX(-50%);
+  }
+  .btn-nav {
+    height: 60px;
+    width: 60px;
+  }
+
+  .btn-nav:hover,
+  .btn-nav:focus {
+    color: #bc6658;
+    background-color: #e8b786;
+  }
+  /* ******************************************* */
+  /* .page-nav {
     position: fixed;
     width: 100%;
     height: 60px;
@@ -673,7 +711,7 @@ ul {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-  }
+  } */
 }
 
 /* Quil Styles */
@@ -683,4 +721,22 @@ ul {
 .editor_body .ql-toolbar.ql-snow,
 .editor_body .ql-container.ql-snow {
   border: none;
+}
+@media print {
+  /* All your print styles go here */
+  .ql-toolbar.ql-snow {
+    display: none !important;
+  }
+  #themeSelect {
+    display: none !important;
+  }
+  .quill_btn-save {
+    display: none !important;
+  }
+  .nav_burger-menu {
+    display: none !important;
+  }
+  .nav_logo {
+    display: none !important;
+  }
 }

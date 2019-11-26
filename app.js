@@ -124,7 +124,16 @@ btnStarred.addEventListener("click", () => {
 });
 
 // ********* QUILL ********* //
+var toolbarOptions = [
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+  ["bold", "italic", "underline", "strike"], // toggled buttons
+  [{ list: "ordered" }, { list: "bullet" }],
+  ["link", "image"]
+];
 const quill = new Quill("#editor", {
+  modules: {
+    toolbar: toolbarOptions
+  },
   theme: "snow",
   placeholder: "Type your note here..."
 });
@@ -382,7 +391,7 @@ function noteDelete(noteid) {
   });
 }
 
-// ***** QUILL toolbar, added team and print button ******
+// ***** QUILL toolbar, added print button ******
 
 // appends the HTML
 const span = document.querySelector(
@@ -390,7 +399,7 @@ const span = document.querySelector(
 );
 span.innerHTML += "<button>Print</button>";
 
-// creates new classes
+// creates new class
 const Btn = document.querySelectorAll("button");
 
 Btn.forEach(b => {
@@ -400,6 +409,7 @@ Btn.forEach(b => {
 });
 
 // //PRINT FUNCTION
+
 const printBtn = document
   .querySelector(".print")
   .addEventListener("click", function() {
