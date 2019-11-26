@@ -575,10 +575,14 @@ ul {
   font-size: 15px;
   outline: 0;
 }
+.themes {
+  padding: 10px;
+  font-size: 15px;
+  outline: 0;
+}
 /* **********THEMES*********** */
 #themes {
   padding: 0;
-  margin-top: 10px;
 }
 #toolbarBox {
   display: flex;
@@ -716,16 +720,12 @@ ul {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-  } */
+  }
 }
 
 /* Quil Styles */
 
-/* Removing Quil Border styles */
-
-.editor_body .ql-toolbar.ql-snow,
-.editor_body .ql-container.ql-snow {
-  border: none;
+  /* Removing Quil Border styles */
 }
 @media print {
   /* All your print styles go here */
