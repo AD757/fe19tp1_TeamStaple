@@ -1,3 +1,9 @@
+:root {
+  --main-bg-color: #fff;
+  --darkest-color: #42a5f5;
+  --hover-bg-color: #f6f6f6;
+}
+/* var(--darkest-color); */
 body {
   margin: 0;
   max-width: 100vw;
@@ -6,7 +12,7 @@ body {
   line-height: 18px;
   letter-spacing: 0.5px;
   color: #666;
-  background-color: #fff;
+  background-color: var(--main-bg-color);
 }
 
 p,
@@ -37,7 +43,7 @@ h6 {
   flex-direction: column;
   height: 100vh;
   min-width: 60px;
-  background-color: #42a5f5;
+  background-color: var(--darkest-color);
   z-index: 100;
 }
 
@@ -102,8 +108,8 @@ h6 {
 
 .btn-nav:hover,
 .btn-nav:focus {
-  color: #42a5f5;
-  background-color: #f6f6f6;
+  color: var(--darkest-color);
+  background-color: var(--hover-bg-color);
 }
 
 .btn-nav_open {
@@ -612,9 +618,6 @@ h6 {
 /***************   MOBILE VIEW   ***************/
 
 @media (max-width: 576px) {
-  .app {
-    flex-direction: row;
-  }
   .page-nav {
     position: fixed;
     width: 100%;
@@ -638,9 +641,6 @@ h6 {
     display: flex;
     flex-direction: row;
     padding: 10px;
-  }
-  .nav_item {
-    padding: 0px;
   }
   .nav-logo_text {
     position: fixed;
@@ -702,10 +702,10 @@ h6 {
 
 /* Removing Quil Border styles */
 
-.editor_body .ql-toolbar.ql-snow,
+/* .editor_body .ql-toolbar.ql-snow,
 .editor_body .ql-container.ql-snow {
   border: none;
-}
+} */
 @media print {
   /* All your print styles go here */
   .ql-toolbar.ql-snow {
