@@ -1,17 +1,40 @@
 :root {
+  /* Background */
   --main-bg-color: #f0c7c1;
+  /* menu and button and navtext:hover */
   --darkest-color: #bc6658;
+  /* text in quill */
+  --main-text-color: #bc6658;
+  /* btn-nav:hover */
+  --nav-hover-color: #e8b786;
+  /* notes list and search */
+  --list-bg-color: #f0c0b8;
+  /* .notes_item:hover  */
+  --notes-hover-color: #e8b786;
+  /* The title of the notelist */
+  --notes-title-color: #bc6658;
+  /* notes star and date */
+  --note-text-color: #bc6658;
+  --ql-date-color: #bc6658;
+  /* The action button */
+  --action-hover-color: #bc6658;
+  /* toolbar background */
+  --toolbar-bg-color: #f0c0b8;
+}
+/* FONTS */
+:root {
+  --family-font: Georgia, "Times New Roman", Times, serif;
 }
 
 body {
   margin: 0;
   max-width: 100vw;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: var(--family-font);
   font-size: 16px;
   line-height: 18px;
   letter-spacing: 0.5px;
-  color: #666;
-  background-color: #f0c7c1;
+  color: var(--main-text-color);
+  background-color: var(--main-bg-color);
 }
 
 p,
@@ -42,7 +65,7 @@ h6 {
   flex-direction: column;
   height: 100vh;
   min-width: 60px;
-  background-color: #bc6658;
+  background-color: var(--darkest-color);
   z-index: 100;
 }
 
@@ -107,8 +130,8 @@ h6 {
 
 .btn-nav:hover,
 .btn-nav:focus {
-  color: #bc6658;
-  background-color: #e8b786;
+  color: var(--darkest-color);
+  background-color: var(--nav-hover-color);
 }
 
 .btn-nav_open {
@@ -173,7 +196,8 @@ h6 {
   width: 300px;
   display: flex;
   align-items: center;
-  background-color: #f0c0b8;
+  background-color: var(--list-bg-color);
+  z-index: 55;
 }
 
 .search_input {
@@ -200,7 +224,7 @@ h6 {
   width: 300px;
   height: 100vh;
   overflow-y: scroll;
-  background-color: #f0c0b8;
+  background-color: var(--list-bg-color);
 }
 
 .notes_list {
@@ -210,15 +234,35 @@ h6 {
 }
 
 .notes_item {
+  position: relative;
   padding: 15px;
+  padding-right: 35px;
   display: flex;
-  color: #666;
+  color: var(--notes-item-color);
   cursor: pointer;
   position: relative;
 }
 
 .notes_item:hover {
-  background-color: #e8b786;
+  background-color: var(--notes-hover-color);
+}
+
+.notes_item-delete {
+  position: absolute;
+  right: 8px;
+  top: 36px;
+  background: transparent url(images/delete_btn.png) no-repeat top;
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  background-size: 42px;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.notes_item:hover .notes_item-delete {
+  opacity: 0.5;
 }
 
 .notes_item-delete {
@@ -246,7 +290,7 @@ h6 {
 .notes_title {
   font-size: 14px;
   line-height: 18px;
-  color: #bc6658;
+  color: var(--notes-title-color);
   margin-bottom: 10px;
 }
 
@@ -278,13 +322,13 @@ h6 {
   font-weight: 700;
   text-align: right;
   margin-bottom: 10px;
-  color: #bc6658;
+  color: var(--note-text-color);
 }
 
 .notes_star {
   padding-bottom: 10px;
   font-size: 18px;
-  color: #bc6658;
+  color: var(--note-text-color);
 }
 
 .notes_star:hover {
@@ -334,42 +378,28 @@ h6 {
 
 .ql-toolbar.ql-snow {
   padding: 10px 0 !important;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border: 0 !important;
   border: none;
-  background: #f0c0b8;
+  background: var(--list-bg-color);
 }
 
+/*.ql-toolbar.ql-snow,*/
+
 .ql-container.ql-snow {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
   border: 0 !important;
 }
 
 .ql-editor {
-  font-family: Georgia, "Times New Roman", Times, serif;
   padding: 10px 8px !important;
-  font-size: 15px;
+  font-family: var(--family-font);
 }
 
 .ql-editor p {
-  font-family: Georgia, "Times New Roman", Times, serif !important;
+  font-family: var(--family-font);
   margin-bottom: 20px;
   font-size: 16px;
   line-height: 26px;
   letter-spacing: 0.5px;
-  color: #666;
-}
-.ql-editor > h1,
-h2,
-h3 {
-  font-family: Georgia, "Times New Roman", Times, serif !important;
-  color: #666;
-}
-.ql-editor > ol,
-ul {
-  font-family: Georgia, "Times New Roman", Times, serif !important;
-  color: #666;
 }
 
 /*Quill text area Placeholder */
@@ -390,13 +420,12 @@ ul {
   width: 100%;
   padding: 5px 8px;
   margin: 10px 10px 0 0;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: var(--family-font);
   font-size: 24px;
   letter-spacing: 0.5px;
-  color: #bc6658;
+  color: var(--darkest-color);
   border: 0;
-  border-bottom: 1px solid #ccc;
-  border-radius: 3px;
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
   outline: 0;
 }
 
@@ -405,8 +434,9 @@ ul {
 }
 
 .quill_title:hover,
-.quill_title:hover {
-  background-color: #f2f2f2;
+.quill_title:focus {
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-out;
   outline: 0;
 }
 
@@ -414,10 +444,10 @@ ul {
   display: block;
   margin: 10px 0 0;
   padding: 15px 35px;
-  font-family: "Lato", sans-serif;
+  font-family: var(--family-font);
   font-size: 16px;
   color: #fff;
-  background-color: #bc6658;
+  background-color: #42a5f5;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
@@ -426,7 +456,7 @@ ul {
 
 .quill_btn-save:hover,
 .quill_btn-save:focus {
-  background-color: #e8b786;
+  background-color: #1e88e5;
 }
 
 .quill_date {
@@ -434,7 +464,7 @@ ul {
   margin: 0;
   padding: 10px 0;
   font-size: 12px;
-  color: #bc766b;
+  color: var(--ql-date-color);
 }
 
 .quill_error {
@@ -444,6 +474,37 @@ ul {
 .quill_error:after {
   position: absolute;
   content: "Enter a title";
+}
+
+.btn_print {
+  font-size: 13px;
+  outline: 0;
+}
+
+/************* THEMES ****************/
+
+#themes {
+  padding: 0;
+}
+#toolbarBox {
+  display: flex;
+  justify-content: space-between;
+}
+#themeSelect {
+  font-family: var(--family-font);
+  font-size: 13px;
+  outline: 0;
+  height: 20px;
+}
+
+/************* Print button ****************/
+
+.print {
+  padding: 10px;
+  margin-right: 15px;
+  margin-left: 10px;
+  font-size: 15px;
+  outline: 0;
 }
 
 /***************   POPUP   ***************/
@@ -567,47 +628,67 @@ ul {
   font-weight: 700;
   text-align: center;
 }
-/* Print button */
-.print {
-  padding: 10px;
-  margin-right: 15px;
-  margin-left: 10px;
-  font-size: 15px;
-  outline: 0;
-}
-.themes {
-  padding: 10px;
-  font-size: 15px;
-  outline: 0;
-}
-/* **********THEMES*********** */
-#themes {
-  padding: 0;
-}
-#toolbarBox {
-  display: flex;
-  justify-content: space-between;
-}
-#themeSelect {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 13px;
 
-  outline: 0;
-  height: 20px;
-}
-#themeSelect:hover {
-  transition: 0.6s;
-  color: rgb(188, 102, 88);
+/***************   TABLET VIEW   ***************/
+
+.action-menu {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  z-index: 150;
 }
 
-/***************   OTHER   ***************/
-
-.hidden {
-  display: none;
+.action-btn {
+  position: relative;
+  margin: 15px auto 0;
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  text-align: center;
+  color: var(--darkest-color);
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  overflow: hidden;
+  transform: scale(0);
 }
 
-.show {
-  display: block;
+.action-btn:hover,
+.action-btn:focus,
+.action-btn_active {
+  color: #fff;
+  background-color: var(--darkest-color);
+}
+
+.action-btn_shown {
+  transform: scale(1);
+}
+
+.action-btn_prime {
+  width: 70px;
+  height: 70px;
+  color: #fff;
+  background-color: var(--darkest-color);
+  transform: scale(1);
+}
+
+.action-btn_prime:hover,
+.action-btn_prime:focus {
+  background-color: var(--action-hover-color);
+}
+
+.action-btn_text {
+  position: absolute;
+  font-size: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.action-btn_prime .action-btn_text {
+  font-size: 26px;
 }
 
 /***************   TABLET VIEW   ***************/
@@ -622,6 +703,9 @@ ul {
 @media (max-width: 780px) {
   .notes {
     display: none;
+    position: fixed;
+    margin-left: 60px;
+    z-index: 50;
   }
   .main-content {
     width: 100%;
@@ -629,16 +713,72 @@ ul {
   }
   .btn-nav:hover,
   .btn-nav:focus {
-    background-color: #e8b786;
+    background-color: #fff;
   }
 }
 
 /***************   MOBILE VIEW   ***************/
 
 @media (max-width: 576px) {
-  .app {
-    flex-direction: column;
-  }
+  /* 
+
+    .notes {
+        width: 100%;
+        position: unset;
+        margin: 0;
+        margin-top: 60px;
+    }
+
+    .notes_search {
+        width: 100%;
+        
+    }
+    .main-content {
+        width: 100%;
+        margin-top: 70px;
+        padding: 0;
+    }
+
+    .editor {
+        height: 70%;
+    }
+
+    .quill_title-container,
+    .quill_date,
+    .ql-toolbar.ql-snow,
+    .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        margin: 0 25px;
+    }
+    .nav_list {
+        display: none;
+        position: fixed;
+        margin-top: 60px;
+        width: 100%;
+        background-color: #42A5F5;
+    }
+    .nav-list_show {
+        display: flex;
+    }
+    .btn-nav_text {
+        display: block;
+        font-size: 16px;
+    }
+    .toolbar_hide {
+        display: none;
+    }
+    .nav_expand {
+        display: none;
+    }
+    .nav_burger-menu {
+        display: flex;
+    }
+    .nav-logo_text {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+} */
+
   .page-nav {
     position: fixed;
     width: 100%;
@@ -647,7 +787,7 @@ ul {
     justify-content: center;
     flex-direction: row;
     justify-content: flex-start;
-    background-color: #bc6658;
+    background-color: var(--darkest-color);
     z-index: 100;
   }
   .nav_expand {
@@ -663,9 +803,6 @@ ul {
     flex-direction: row;
     padding: 10px;
   }
-  .nav_item {
-    padding: 0px;
-  }
   .nav-logo_text {
     position: fixed;
     right: 5%;
@@ -678,54 +815,9 @@ ul {
 
   .btn-nav:hover,
   .btn-nav:focus {
-    color: #bc6658;
-    background-color: #e8b786;
+    color: var(--darkest-color);
+    background-color: var(--nav-hover-color);
   }
-  /* ******************************************* */
-  /* .page-nav {
-    position: fixed;
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-  }
-  .main-content {
-    width: 100%;
-    margin-top: 60px;
-    padding: 0 25px;
-  }
-  .nav_list {
-    display: none;
-    position: fixed;
-    margin-top: 60px;
-    width: 100%;
-    background-color: #bc6658;
-  }
-  .nav-list_show {
-    display: flex;
-  }
-  .btn-nav_text {
-    display: block;
-    font-size: 16px;
-  }
-  .toolbar_hide {
-    display: none;
-  }
-  .nav_expand {
-    display: none;
-  }
-  .nav_burger-menu {
-    display: flex;
-  }
-  .nav-logo_text {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-/* Quil Styles */
-
-  /* Removing Quil Border styles */
 }
 @media print {
   /* All your print styles go here */
@@ -742,6 +834,9 @@ ul {
     display: none !important;
   }
   .nav_logo {
+    display: none !important;
+  }
+  .page-nav {
     display: none !important;
   }
 }
