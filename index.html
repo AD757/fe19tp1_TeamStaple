@@ -24,35 +24,31 @@
 
             <nav class="page-nav">
 
-                <button class="nav_burger-menu">
-                    <i class="btn-nav_burger-menu fas fa-bars"></i>
-                </button>
-
                 <div class="nav_logo">
                     <a href="index.html" class="nav-logo_text">Q</a>
                 </div>
 
                 <ul class="nav_list">
                     <li class="nav_item">
-                        <button class="btn-nav btn-nav_new-note">
+                        <button class="btn-nav btn-nav_new-note" title="Create a New Note">
                             <i class="btn-nav_icon fas fa-edit"></i>
                             <span class="btn-nav_text">New&nbsp;Note</span>
                         </button>
                     </li>
                     <li class="nav_item">
-                        <button class="btn-nav btn-nav_my-notes">
+                        <button class="btn-nav btn-nav_my-notes" title="Show Notes">
                             <i class="btn-nav_icon fas fa-bars"></i>
                             <span class="btn-nav_text">My&nbsp;Notes</span>
                         </button>
                     </li>
                     <li class="nav_item">
-                        <button class="btn-nav btn-nav_starred">
+                        <button class="btn-nav btn-nav_starred" title="Show Favorites">
                             <i class="btn-nav_icon fas fa-star"></i>
                             <span class="btn-nav_text">Starred</span>
                         </button>
                     </li>
                     <li class="nav_item">
-                        <button class="btn-nav btn-nav_deleted">
+                        <button class="btn-nav btn-nav_deleted" title="Show Deleted Notes">
                             <i class="btn-nav_icon fas fa-trash-alt"></i>
                             <span class="btn-nav_text">Deleted</span>
                         </button>
@@ -75,7 +71,7 @@
                     <input type="search" class="search_input" placeholder="Search...">
                 </div>
 
-                <ul class="notes_list">
+                <ul class="notes_list" id="ul">
                 </ul>
 
                 <p class="notes_empty-msg">Nothing to show.</p>
@@ -93,6 +89,23 @@
 
                 <div class="quill_title-container">
                     <input class="quill_title" id="quill_title" placeholder="Title..." value="">
+
+                    <!--------------- FLOATING MENU --------------->
+                    <div class="action-menu">
+                        <div class="action-btn action-btn_save" title="Save note">
+                            <i class="action-btn_text far fa-save"></i>
+                        </div>
+                        <div class="action-btn action-btn_star" title="Add to Favorites">
+                            <i class="action-btn_text far fa-star"></i>
+                        </div>
+                        <div class="action-btn action-btn_delete" title="Delete note">
+                            <i class="action-btn_text fas fa-times"></i>
+                        </div>
+                        <div class="action-btn action-btn_prime">
+                            <i class="action-btn_text fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+
                 </div>
 
                 <span class="quill_date">26th of December</span>
@@ -143,24 +156,6 @@
             </div>
         </div>
     </div>
-
-    <!--------------- FLOATING MENU --------------->
-    <div class="action-menu">
-        <div class="action-btn action-btn_save">
-            <i class="action-btn_text far fa-save"></i>
-        </div>
-        <div class="action-btn action-btn_star">
-            <i class="action-btn_text far fa-star"></i>
-        </div>
-        <div class="action-btn action-btn_delete">
-            <i class="action-btn_text fas fa-times"></i>
-        </div>
-        <div class="action-btn action-btn_prime">
-            <i class="action-btn_text fas fa-ellipsis-h"></i>
-        </div>
-    </div>
-    
-
 
     <div class="popup_blur"></div>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
