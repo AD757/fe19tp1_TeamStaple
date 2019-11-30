@@ -212,7 +212,7 @@ p, h1, h2, h3, h4, h5, h6 {
     position: absolute;
     right: 8px;
     top: 36px;
-    background: transparent url(images/delete_btn.png) no-repeat top;
+    background: transparent url(/css/images/delete_btn.png) no-repeat top;
     width: 32px;
     height: 32px;
     background-position: center center;

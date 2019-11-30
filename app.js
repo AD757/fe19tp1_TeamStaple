@@ -126,24 +126,22 @@ btnStarred.addEventListener('click', () => {
         showEmptyMsg();
     }
 
-})
+});
+
+function showEmptyMsg(emptyMsg) {
+    emptyMsg.classList.add('show');
+}
+
+
 
 // ********* QUILL ********* //
 var toolbarOptions = [
-   ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-   ['blockquote', 'code-block'],
-   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],               // custom button values
-   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-   [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-   [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-   [{ 'direction': 'rtl' }],                         // text direction
-   [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-   [ 'link', 'image', 'video', 'formula'],
-   [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-   [{ 'font': [] }],
-   [{ 'align': [] }],
-   ['clean']                                         // remove formatting button
- ];
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [ 'link', 'image'],
+  ];
+  
 const quill = new Quill('#editor', {
    modules: {
      toolbar: toolbarOptions
@@ -151,6 +149,40 @@ const quill = new Quill('#editor', {
    theme: 'snow',
    placeholder: 'Type your note here...',
  });
+
+// ***** QUILL toolbar, added print button ******
+// appends the HTML
+const quillToolbar = document.querySelector(".ql-toolbar.ql-snow");
+console.log(quillToolbar);
+quillToolbar.insertAdjacentHTML(
+  "beforeend",
+  `
+<span class="ql-formats">
+    <form id="themes">
+        <select name="themeSelect" for="theme" id="themeSelect">
+            <option value="style">Default Theme</option>
+            <option value="dark">Dark Theme</option>
+            <option value="spring">Spring Theme</option>
+            <option value="autumn">Autumn Theme</option>
+        </select>
+    </form>
+</span>
+<span class="ql-formats">
+    <button><i class="btn_print fas fa-print"></i></button>
+</span>
+`
+);
+// creates new class
+const printBtn = document.querySelector(".btn_print");
+
+// //PRINT FUNCTION
+printBtn.addEventListener("click", function(e) {
+  console.log(e.target);
+  document.printBtn = window.print();
+});
+
+
+
 // ********* LOCAL STORAGE ********* //
 
 //An empty Array to save New Notes Objects into
@@ -172,6 +204,13 @@ function loadNotes() {
 }
 
 loadNotes();
+
+
+// ********* HIDES EMPTY NOTES ********* //
+
+myNotes = myNotes.filter(note => note.title !== '' && note.preview !== '\n')
+
+console.log(myNotes)
 
 // ********* DATES ********* //
 
@@ -260,6 +299,15 @@ btnCreate.addEventListener('click', () => {
 
 //Oncklick event on Save button
 btnSave.addEventListener('click', () => {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your note has been saved',
+        showConfirmButton: false,
+        timer: 1000
+      })    
+
+      
 
     //create references for the object values
     let title = quillTitle.value;
@@ -306,128 +354,91 @@ btnSave.addEventListener('click', () => {
 
 });
 
-// Delete Note
-
+// ********* DELETE NOTE ********* //
 
 document.addEventListener('click', function () {
     let btnDelete = event.target;
     if (!btnDelete.classList.contains('notes_item-delete')) {
         return;
     }
-    let notesItem = btnDelete.parentElement;
+    let notesItem = btnDelete.closest('.notes_item');
     notesItem.style.display = 'none';
-    noteDelete(btnDelete.id);
+    noteDelete(notesItem.id);
 
 });
 
-function noteDelete(noteid) {
+function noteDelete(notesItemId) {
     myNotes.forEach(note => {
-        if (noteid == note.id) {
+        if (notesItemId == note.id) {
             note.isDeleted = true;
             saveNote(); // Save deleted status to local storage
         }
     });
 };
 
+// ********* OPEN NOTE ********* //
+
+notesListArr = [...notesList.children];
+
+notesListArr.forEach(note => {
+    note.addEventListener('click', (e) => {
+
+        console.log(e.target);
+
+        for (let i = 0; i < myNotes.length; i++) {
+            if (e.target.id == myNotes[i].id || e.target.parentNode.id == myNotes[i].id || e.target.parentNode.parentNode.id == myNotes[i].id) {
+                quillTitle.value = myNotes[i].title;
+                quill.setContents(myNotes[i].text);
+                currentNote = myNotes[i].id;
+                console.log(currentNote);
+            }
+        }
+    })
+})
 
 
 
-
-
-// quill.setContents(myNotes[4].text)
-
-
-
-
-// ********* CREATE A NEW NOTE ********* //
-
-/*
-class Note {
-    constructor(title, text, isStarred, isDeleted, id, year, month, date, hours, minutes, seconds) {
-        this.title = title
-        this.text = text
-        this.isStarred = isStarred
-        this.isDeleted = isDeleted
-        this.id = id
-        //date
-        this.year = year
-        this.month = month
-        this.date = date
-        this.hours = hours
-        this.minutes = minutes
-        this.seconds = seconds
+// ******** LOAD THEMES ********* //
+function loadTheme() {
+    let t = localStorage.getItem("theme");
+    console.log("loadtheme ran, theme: " + t);
+        if (t === null) {
+            t = "style";
+        }
+        return t;
     }
-}
-
-//All the notes Array
-const notes = document.querySelectorAll('.notes_item');
-const notesArr = [...document.querySelectorAll('.notes_item')];
-
-console.log(notesArr);
-
-// *** NOTES *** //
-
-const btnSave = document.querySelector('.quill_btn-save');
-
-//create reference for the Title input field
-const inputTitle = document.querySelector('.quill_title').value;
-//create a new quill key:value for Title and assign it to Title input value
-quill.title = inputTitle;
-const quillTitle = quill.title;
-const quillText = quill.container.textContent;
-
-
-btnSave.addEventListener('click', () => {
-
-    console.log(inputTitle);
-
-    let title = quillTitle;
-    let text = quillText;
-    let isStarred = 'false';
-    let isDeleted = 'false';
-    let id = Date.now();
-
-    const newNote = new Note (
-        title,
-        text,
-        isStarred,
-        isDeleted,
-        id,
-    );
-
-    if (newNote.title == '') {
-        /* inputTitle.insertAdjacentHTML('afterend', `
-            <p>*Enter title</p>
-        `)
-        return;
-    }
-
-    if (newNote.text.length > 30) {
-        newNote.text = newNote.text.substring(0,50) + "...";
-    }
-
-    notesList.insertAdjacentHTML('afterbegin', `
-        <li class="notes_item">
-            <div class="notes_info">
-                <div class="notes-date">
-                <span class="notes_date-month">Oct</span>
-                <span class="notes_date-day">14</span>
-                </div>
-                <i class="notes_star far fa-star"></i>
-            </div>
-            <div class="notes_content">
-                <h3 class="notes_title">${newNote.title}</h3>
-                <p class="notes_text">${newNote.text}</p>
-            </div>
-        </li>
-    `);
-
-    myNotes.push(newNote);
-
-    notesArr.push(newNote);
-
-    console.log(notesArr);
-
+    
+applyTheme(loadTheme());
+    
+// *********** THEMES *********** //
+themeSelect = document.getElementById("themeSelect");
+themeStylesheet = document.getElementById("themeStylesheet");
+themeSelect.addEventListener("change", function() {
+    applyTheme(this.value);
+    console.log(this.value);
+    localStorage.setItem("theme", this.value);
 });
 
-*/
+function applyTheme(theme) {
+    themeStylesheet.setAttribute("href", "css/" + theme + ".css");
+    themeSelect.value = theme;
+}
+
+
+// *********** FLOATING ACTION MENU *********** //
+
+const actionMenu = document.querySelector(".action-menu");
+const actionBtns = document.querySelectorAll(".action-btn");
+
+actionMenu.addEventListener("click", e => {
+  if (
+    e.target.classList.contains("action-btn_prime") ||
+    e.target.parentNode.classList.contains("action-btn_prime")
+  ) {
+    actionBtns.forEach(btn => {
+      btn.classList.toggle("action-btn_shown");
+    });
+  }
+});
+
+

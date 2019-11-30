@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Baloo|Lato:400,700&display=swap" rel="stylesheet">
-
-    <title>Quire</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      id="themeStylesheet"
+      rel="stylesheet"
+      type="text/css"
+      href="css/style.css"
+    />
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Baloo|Lato:400,700&display=swap"
+      rel="stylesheet"
+    />
 </head>
 
 <body>
@@ -144,10 +156,27 @@
         </div>
     </div>
 
+      <!--------------- FLOATING MENU --------------->
+      <div class="action-menu">
+        <div class="action-btn action-btn_save">
+          <i class="action-btn_text far fa-save"></i>
+        </div>
+        <div class="action-btn action-btn_star">
+          <i class="action-btn_text far fa-star"></i>
+        </div>
+        <div class="action-btn action-btn_delete">
+          <i class="action-btn_text fas fa-times"></i>
+        </div>
+        <div class="action-btn action-btn_prime">
+          <i class="action-btn_text fas fa-ellipsis-h"></i>
+        </div>
+      </div>
 
     <div class="popup_blur"></div>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="sweetalert2.all.min.js"></script>
 
 </body>
 
