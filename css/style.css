@@ -10,11 +10,13 @@
     --ql-date-color: #bbb;
     --action-hover-color: #1e88e5;
     --toolbar-bg-color: #f6f6f6;
-  }
-  /* FONTS */
-  :root {
+}
+
+/* FONTS */
+
+:root {
     --family-font: "Lato", sans-serif;
-  }
+}
 
 body {
     margin: 0;
@@ -292,7 +294,7 @@ p, h1, h2, h3, h4, h5, h6 {
     text-align: right;
     text-transform: uppercase;
     color: var(--note-text-color);
-    border-right: 1px solid rgba(0,0,0, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .notes-date {
@@ -408,7 +410,7 @@ p, h1, h2, h3, h4, h5, h6 {
     color: var(--darkest-color);
     background-color: var(--main-bg-color);
     border: 0;
-    box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
     outline: 0;
 }
 
@@ -416,9 +418,8 @@ p, h1, h2, h3, h4, h5, h6 {
     color: rgba(0, 0, 0, 0.3);
 }
 
-.quill_title:hover,
-.quill_title:focus {
-    box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.3);
+.quill_title:hover, .quill_title:focus {
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.3);
     transition: all .3s ease-out;
     outline: 0;
 }
@@ -469,15 +470,13 @@ p, h1, h2, h3, h4, h5, h6 {
     padding: 5px;
     font-size: 23px;
     text-align: center;
-    color: rgba(0,0,0,0.3);
+    color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: all .2s ease-out;
     overflow: hidden;
 }
 
-.action-btn:hover,
-.action-btn:focus,
-.action-btn_active {
+.action-btn:hover, .action-btn:focus, .action-btn_active {
     color: var(--darkest-color);
 }
 
@@ -489,17 +488,19 @@ p, h1, h2, h3, h4, h5, h6 {
 
 #themes {
     padding: 0;
-  }
-  #toolbarBox {
+}
+
+#toolbarBox {
     display: flex;
     justify-content: space-between;
-  }
-  #themeSelect {
+}
+
+#themeSelect {
     font-family: "Lato", sans-serif;
     font-size: 13px;
     outline: 0;
     height: 20px;
-  }
+}
 
 /************* Print button ****************/
 
@@ -509,7 +510,7 @@ p, h1, h2, h3, h4, h5, h6 {
     margin-left: 10px;
     font-size: 15px;
     outline: 0;
-  }
+}
 
 /***************   POPUP   ***************/
 
@@ -667,51 +668,38 @@ p, h1, h2, h3, h4, h5, h6 {
 /***************   MOBILE VIEW   ***************/
 
 @media (max-width: 576px) {
-
     .app {
         flex-direction: column;
     }
-
     .page-nav {
         position: fixed;
         width: 100%;
         height: 60px;
         flex-direction: row-reverse;
     }
-
     .notes {
         width: 100%;
         position: unset;
         margin: 0;
         margin-top: 60px;
     }
-
     .notes_search {
         width: 100%;
-        
     }
-    
     .main-content {
         width: 100%;
         margin-top: 70px;
         padding: 0;
     }
-
     .editor {
         height: 70%;
     }
-
     .quill_title {
         margin-right: 0;
     }
-
-    .quill_title-container,
-    .quill_date,
-    .ql-toolbar.ql-snow,
-    .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    .quill_title-container, .quill_date, .ql-toolbar.ql-snow, .ql-toolbar.ql-snow+.ql-container.ql-snow {
         margin: 0 25px;
     }
-
     .nav_list {
         display: flex;
         flex-direction: row;
@@ -719,32 +707,25 @@ p, h1, h2, h3, h4, h5, h6 {
         margin-left: 25px;
         width: 100%;
     }
-
     .nav-list_show {
         display: flex;
     }
-
     .btn-nav {
         padding: 0;
         height: 60px;
     }
-
     .btn-nav_text {
         display: none;
         font-size: 16px;
     }
-
     .nav_expand {
         display: none;
     }
-
     .nav_logo {
         margin: 0 25px 0 10%;
         height: 60px;
     }
-
     /***************   ACTION MENU   ***************/
-
     .action-menu {
         position: fixed;
         top: unset;
@@ -753,7 +734,6 @@ p, h1, h2, h3, h4, h5, h6 {
         flex-direction: column;
         z-index: 150;
     }
-
     .action-btn {
         position: relative;
         margin: 15px auto 0;
@@ -761,7 +741,7 @@ p, h1, h2, h3, h4, h5, h6 {
         height: 50px;
         font-size: 26px;
         text-align: center;
-        color: rgba(0,0,0, .3);
+        color: rgba(0, 0, 0, .3);
         background-color: #fff;
         border-radius: 50%;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
@@ -770,18 +750,13 @@ p, h1, h2, h3, h4, h5, h6 {
         overflow: hidden;
         transform: scale(0);
     }
-
-    .action-btn:hover,
-    .action-btn:focus,
-    .action-btn_active {
+    .action-btn:hover, .action-btn:focus, .action-btn_active {
         color: #fff;
         background-color: var(--darkest-color);
     }
-
     .action-btn_shown {
         transform: scale(1);
     }
-
     .action-btn_prime {
         display: block;
         width: 70px;
@@ -790,12 +765,9 @@ p, h1, h2, h3, h4, h5, h6 {
         background-color: var(--darkest-color);
         transform: scale(1);
     }
-
-    .action-btn_prime:hover,
-    .action-btn_prime:focus {
+    .action-btn_prime:hover, .action-btn_prime:focus {
         background-color: var(--action-hover-color);
     }
-
     .action-btn_text {
         position: absolute;
         font-size: 20px;
@@ -803,11 +775,9 @@ p, h1, h2, h3, h4, h5, h6 {
         left: 50%;
         transform: translate(-50%, -50%);
     }
-
     .action-btn_prime .action-btn_text {
         font-size: 26px;
     }
-
 }
 
 /***************   OTHER   ***************/
@@ -818,4 +788,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .show {
     display: block;
+}
+
+.swal2-title {
+    font-size: 20px !important;
 }
