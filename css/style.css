@@ -1,9 +1,19 @@
 :root {
     --main-bg-color: #fff;
     --main-text-color: #666;
-    --accent-color: #42A5F5;
-    --accent-color-hover: #1E88E5;
-    --accent-text-color: #fff;
+    --darkest-color: #42a5f5;
+    --nav-hover-color: #f6f6f6;
+    --list-bg-color: #f6f6f6;
+    --notes-hover-color: #fff;
+    --notes-title-color: #42a5f5;
+    --note-text-color: #aaa;
+    --ql-date-color: #bbb;
+    --action-hover-color: #1e88e5;
+    --toolbar-bg-color: #f6f6f6;
+  }
+  /* FONTS */
+  :root {
+    --family-font: "Lato", sans-serif;
   }
 
 body {
@@ -13,7 +23,7 @@ body {
     font-size: 16px;
     line-height: 18px;
     letter-spacing: 0.5px;
-    color: #666;
+    color: var(--main-text-color);
     background-color: var(--main-bg-color);
 }
 
@@ -39,7 +49,7 @@ p, h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     height: 100vh;
     min-width: 60px;
-    background-color: var(--accent-color);
+    background-color: var(--darkest-color);
     z-index: 100;
 }
 
@@ -103,8 +113,8 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-nav:hover, .btn-nav:focus {
-    color: #42A5F5;
-    background-color: #f6f6f6;
+    color: var(--darkest-color);
+    background-color: var(--nav-hover-color);
 }
 
 .btn-nav_open {
@@ -168,7 +178,7 @@ p, h1, h2, h3, h4, h5, h6 {
     width: 300px;
     display: flex;
     align-items: center;
-    background-color: #f6f6f6;
+    background-color: var(--list-bg-color);
     z-index: 55;
 }
 
@@ -196,7 +206,7 @@ p, h1, h2, h3, h4, h5, h6 {
     width: 300px;
     height: 100vh;
     overflow-y: scroll;
-    background-color: #f6f6f6;
+    background-color: var(--list-bg-color);
 }
 
 .notes_list {
@@ -210,13 +220,13 @@ p, h1, h2, h3, h4, h5, h6 {
     padding: 15px;
     padding-right: 35px;
     display: flex;
-    color: #666;
+    color: var(--notes-item-color);
     cursor: pointer;
     position: relative;
 }
 
 .notes_item:hover {
-    background-color: #fff;
+    background-color: var(--notes-hover-color);
 }
 
 .notes_item-delete {
@@ -262,7 +272,7 @@ p, h1, h2, h3, h4, h5, h6 {
 .notes_title {
     font-size: 14px;
     line-height: 18px;
-    color: #42A5F5;
+    color: var(--notes-title-color);
     margin-bottom: 10px;
 }
 
@@ -281,8 +291,8 @@ p, h1, h2, h3, h4, h5, h6 {
     line-height: 18px;
     text-align: right;
     text-transform: uppercase;
-    color: #bbb;
-    border-right: 1px solid #ccc;
+    color: var(--note-text-color);
+    border-right: 1px solid rgba(0,0,0, 0.1);
 }
 
 .notes-date {
@@ -294,7 +304,7 @@ p, h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     text-align: right;
     margin-bottom: 10px;
-    color: #aaa;
+    color: var(--note-text-color);
 }
 
 .notes_star {
@@ -350,6 +360,7 @@ p, h1, h2, h3, h4, h5, h6 {
 .ql-toolbar.ql-snow {
     padding: 10px 0 !important;
     border: 0 !important;
+    background-color: var(--toolbar-bg-color);
 }
 
 /*.ql-toolbar.ql-snow,*/
@@ -360,10 +371,11 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .ql-editor {
     padding: 10px 8px !important;
+    font-family: var(--family-font);
 }
 
 .ql-editor p {
-    font-family: 'Lato', sans-serif !important;
+    font-family: var(--family-font);
     margin-bottom: 20px;
     font-size: 16px;
     line-height: 26px;
@@ -390,10 +402,11 @@ p, h1, h2, h3, h4, h5, h6 {
     width: 100%;
     padding: 5px 8px;
     margin-right: 140px;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--family-font);
     font-size: 24px;
     letter-spacing: 0.5px;
-    color: #42A5F5;
+    color: var(--darkest-color);
+    background-color: var(--main-bg-color);
     border: 0;
     box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.1);
     outline: 0;
@@ -414,10 +427,10 @@ p, h1, h2, h3, h4, h5, h6 {
     display: block;
     margin: 10px 0 0;
     padding: 15px 35px;
-    font-family: 'Lato', sans-serif;
+    font-family: var(--family-font);
     font-size: 16px;
     color: #fff;
-    background-color: #42A5F5;
+    background-color: var(--darkest-color);
     border: 0;
     border-radius: 5px;
     cursor: pointer;
@@ -425,7 +438,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .quill_btn-save:hover, .quill_btn-save:focus {
-    background-color: #1E88E5;
+    background-color: var(--action-hover-color);
 }
 
 .quill_date {
@@ -433,20 +446,12 @@ p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
     padding: 10px 0;
     font-size: 12px;
-    color: #bbb;
-}
-
-.quill_error {
-    position: relative;
-}
-
-.quill_error:after {
-    position: absolute;
-    content: 'Enter a title';
+    color: var(--ql-date-color);
 }
 
 .btn_print {
     font-size: 13px;
+    outline: 0;
 }
 
 /***************   ACTION MENU   ***************/
@@ -464,7 +469,7 @@ p, h1, h2, h3, h4, h5, h6 {
     padding: 5px;
     font-size: 23px;
     text-align: center;
-    color: #aaa;
+    color: rgba(0,0,0,0.3);
     cursor: pointer;
     transition: all .2s ease-out;
     overflow: hidden;
@@ -473,7 +478,7 @@ p, h1, h2, h3, h4, h5, h6 {
 .action-btn:hover,
 .action-btn:focus,
 .action-btn_active {
-    color: #42A5F5;
+    color: var(--darkest-color);
 }
 
 .action-btn_prime {
@@ -566,12 +571,14 @@ p, h1, h2, h3, h4, h5, h6 {
 .popup_description {
     margin-bottom: 25px;
     font-size: 20px;
+    color: #42A5F5;
 }
 
 .popup_text {
     margin-bottom: 50px;
     font-size: 16px;
     line-height: 24px;
+    color: #666;
 }
 
 .popup_stop {
@@ -595,6 +602,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .popup_start:hover, .popup_start:focus {
     background-color: #1E88E5;
+}
+
+.popup_label {
+    color: #666;
 }
 
 .features_list {
@@ -625,6 +636,7 @@ p, h1, h2, h3, h4, h5, h6 {
     font-size: 16px;
     font-weight: 700;
     text-align: center;
+    color: #666;
 }
 
 /***************   TABLET VIEW   ***************/
@@ -706,7 +718,6 @@ p, h1, h2, h3, h4, h5, h6 {
         margin-top: 0;
         margin-left: 25px;
         width: 100%;
-        background-color: #42A5F5;
     }
 
     .nav-list_show {
@@ -750,7 +761,7 @@ p, h1, h2, h3, h4, h5, h6 {
         height: 50px;
         font-size: 26px;
         text-align: center;
-        color: #42A5F5;
+        color: rgba(0,0,0, .3);
         background-color: #fff;
         border-radius: 50%;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
@@ -764,7 +775,7 @@ p, h1, h2, h3, h4, h5, h6 {
     .action-btn:focus,
     .action-btn_active {
         color: #fff;
-        background-color: #42A5F5;
+        background-color: var(--darkest-color);
     }
 
     .action-btn_shown {
@@ -776,13 +787,13 @@ p, h1, h2, h3, h4, h5, h6 {
         width: 70px;
         height: 70px;
         color: #fff;
-        background-color: #42A5F5;
+        background-color: var(--darkest-color);
         transform: scale(1);
     }
 
     .action-btn_prime:hover,
     .action-btn_prime:focus {
-        background-color: #1E88E5;
+        background-color: var(--action-hover-color);
     }
 
     .action-btn_text {

@@ -81,6 +81,22 @@ const mqTablet = window.matchMedia("(max-width: 780px)");
 
 pageNav.addEventListener('click', e => {
 let button = e.target.closest("button")
+    /// *** BURGER MENU *** ///
+    if (e.target.classList.contains('nav_burger-menu') || e.target.classList.contains('btn-nav_burger-menu')) {
+
+        navList.classList.toggle('nav-list_show');
+
+        if (mqMobile.matches) {
+            btnNavTxt.forEach((txt) => {
+                if (navList.classList.contains('nav-list_show')) {
+                    txt.style.display = 'block';
+                } else {
+                    txt.style.display = 'none';
+                }
+            })
+        }
+    }
+    console.log(button)
     /// *** SHOW ALL NOTES *** ///
     if (button.classList.contains('btn-nav_my-notes')) {
 
@@ -95,6 +111,7 @@ let button = e.target.closest("button")
             allNotes.classList.toggle('show');
             textEditor.classList.add('show');
         }
+
     }
 
     /// *** CREATE A NEW NOTE *** ///
@@ -109,6 +126,7 @@ let button = e.target.closest("button")
             allNotes.classList.remove('show');
         }
     }
+    
 })
 
 // ********* QUILL ********* //
@@ -159,7 +177,6 @@ printBtn.addEventListener("click", function(e) {
 
 //An empty Array to save New Notes Objects into
 let myNotes = [];
-let currentNote;
 
 function saveNote() {
 
@@ -183,12 +200,10 @@ loadNotes();
 
 // ********* HIDES EMPTY NOTES ********* //
 
-myNotes = myNotes.filter(note => note.title !== '' && note.preview !== '\n');
+myNotes = myNotes.filter(note => note.title !== '' && note.preview !== '\n')
 
 console.log(myNotes)
 
-
-// TODO: refactor code below up till fill sidebarnotes to a function which accepts either a note object or just the ID
 // ********* DATES ********* //
 
 const newDate = new Date();
@@ -205,62 +220,30 @@ noteDate.innerHTML = `
 // ********* FILL IN SIDEBAR NOTES ********* //
 
 const notesList = document.querySelector('.notes_list');
-
-const sidebarNotes = (id, title, preview, month, date, isStarred, isSaved) => { // need id
+const sidebarNotes = (id, title, preview, month, date, isStarred) => { // need id
 console.log("id: " + id + " isStarred: " + isStarred);
-console.log("id: " + id + " isSaved: " + isSaved);
     if (preview.length >= 50) {
         preview = preview.substring(0, 50) + "...";
     }
 
     if (isStarred) {
-        console.log('this element is starred');
-    }
-
-    if (id == currentNote && isSaved && isStarred) {
-        console.log("id: " + id + " isSaved: " + isSaved);
-
-        const existingNote = document.getElementById(currentNote);
-        existingNote.innerHTML = `
-            <button class="notes_item-delete"></button>
-            <div class="notes_info">
-                <div class="notes-date">
-                <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
-                <span class="notes_date-day">` + date + `</span>
-                </div>
-                <i class="notes_star far fa-star notes_starred"></i>
+        notesList.insertAdjacentHTML('afterbegin', `
+        <li class="notes_item favorite" id=` + id + `>
+        <button class="notes_item-delete"></button>
+        <div class="notes_info">
+            <div class="notes-date">
+            <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
+            <span class="notes_date-day">` + date + `</span>
             </div>
-            <div class="notes_content">
-                <h3 class="notes_title">` + title + `</h3>
-                <p class="notes_text">` + preview + `</p>
-            </div>
-        `;
-        existingNote.classList.add('favorite');
-
-        return;
-
-    } else if (id == currentNote && isSaved && !isStarred) {
-        console.log("id: " + id + " isSaved: " + isSaved);
-
-        const existingNote = document.getElementById(currentNote);
-        existingNote.innerHTML = `
-            <button class="notes_item-delete"></button>
-            <div class="notes_info">
-                <div class="notes-date">
-                <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
-                <span class="notes_date-day">` + date + `</span>
-                </div>
-                <i class="notes_star far fa-star"></i>
-            </div>
-            <div class="notes_content">
-                <h3 class="notes_title">` + title + `</h3>
-                <p class="notes_text">` + preview + `</p>
-            </div>
-        `;
-
-        return;
-    }
-    else {
+            <i class="notes_star far fa-star notes_starred"></i>
+        </div>
+        <div class="notes_content">
+            <h3 class="notes_title">` + title + `</h3>
+            <p class="notes_text">` + preview + `</p>
+        </div>
+        </li>
+    `)
+    } else {
         notesList.insertAdjacentHTML('afterbegin', `
         <li class="notes_item" id=` + id + `>
         <button class="notes_item-delete"></button>
@@ -276,8 +259,9 @@ console.log("id: " + id + " isSaved: " + isSaved);
             <p class="notes_text">` + preview + `</p>
         </div>
         </li>
-    `);
-
+    `)
+    }
+    
     let newNote = document.getElementById(id);
 
     if (newNote) {
@@ -293,75 +277,19 @@ console.log("id: " + id + " isSaved: " + isSaved);
                     quill.setContents(myNotes[i].text);
                     currentNote = myNotes[i].id;
                     console.log(currentNote);
-    
-                    myNotes[i].isSaved = true;
+
                 }
     
             }
         })
     }
 
-    }
-
-    const iconStar = document.querySelector('.notes_star');
-
-/*     if (isStarred) {
-
-        myNotes.forEach(note => {
-            if (note.isStarred) {
-                console.log('Note' + note.isStarred);
-                iconStar.classList.add('notes_starred');
-            } else {
-                iconStar.classList.remove('notes_starred');
-            }
-
-            saveNote();
-        })
-    } */
-
-    
-
-        /* notesList.insertAdjacentHTML('afterbegin', `
-            <li class="notes_item favorite" id=` + id + `>
-            <button class="notes_item-delete"></button>
-            <div class="notes_info">
-                <div class="notes-date">
-                <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
-                <span class="notes_date-day">` + date + `</span>
-                </div>
-                <i class="notes_star far fa-star notes_starred"></i>
-            </div>
-            <div class="notes_content">
-                <h3 class="notes_title">` + title + `</h3>
-                <p class="notes_text">` + preview + `</p>
-            </div>
-            </li>
-        `);
-    } else {
-        notesList.insertAdjacentHTML('afterbegin', `
-            <li class="notes_item" id=` + id + `>
-            <button class="notes_item-delete"></button>
-            <div class="notes_info">
-                <div class="notes-date">
-                <span class="notes_date-month">` + months[month].substr(0, 3) + `</span>
-                <span class="notes_date-day">` + date + `</span>
-                </div>
-                <i class="notes_star far fa-star"></i>
-            </div>
-            <div class="notes_content">
-                <h3 class="notes_title">` + title + `</h3>
-                <p class="notes_text">` + preview + `</p>
-            </div>
-            </li>
-        `); 
-    }*/
-
 }
 
 myNotes.forEach(note => {
 
     if (!note.isDeleted == true) { // Check for deleted items
-        sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.isStarred, note.isSaved);
+        sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.isStarred);
     }
 
 });
@@ -370,14 +298,13 @@ myNotes.forEach(note => {
 // ********* NOTE CONSTRUCTOR ********* //
 
 class Note {
-    constructor(id, title, text, preview, isStarred, isDeleted, isSaved, year, month, date, hours, minutes, seconds) {
-        this.id = id
+    constructor(id, title, text, preview, isStarred, isDeleted, year, month, date, hours, minutes, seconds) {
         this.title = title
         this.text = text // Delta, for quill use only
         this.preview = preview
         this.isStarred = isStarred
         this.isDeleted = isDeleted
-        this.isSaved = isSaved
+        this.id = id
         //date
         this.year = year
         this.month = month
@@ -398,6 +325,7 @@ const btnSave = document.querySelector('.action-btn_save');
 const quillTitle = document.querySelector('.quill_title');
 //Text
 const quillText = quill.container;
+let currentNote;
 
 //Oncklick event on NewNote button
 btnCreate.addEventListener('click', () => {
@@ -410,14 +338,12 @@ btnCreate.addEventListener('click', () => {
     let preview = quill.getText(0, 50);
     let isStarred = false;
     let isDeleted = false;
-    let isSaved = false;
-    let oldDate = new Date(id);
-    let year = oldDate.getFullYear();
-    let month = oldDate.getMonth();
-    let date = oldDate.getDate();
-    let hours = oldDate.getHours();
-    let minutes = oldDate.getMinutes();
-    let seconds = oldDate.getSeconds();
+    let year = newDate.getFullYear();
+    let month = newDate.getMonth();
+    let date = newDate.getDate();
+    let hours = newDate.getHours();
+    let minutes = newDate.getMinutes();
+    let seconds = newDate.getSeconds();
 
     //create new Note Object
     const newNote = new Note (
@@ -427,7 +353,6 @@ btnCreate.addEventListener('click', () => {
         preview,
         isStarred,
         isDeleted,
-        isSaved,
         //date
         year,
         month,
@@ -458,21 +383,34 @@ btnSave.addEventListener('click', () => {
         return; 
     } */ 
 
+    // Save button alert
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your note has been saved',
+        showConfirmButton: false,
+        timer: 1000
+    })
+
     myNotes.forEach(note => {
 
         if (note.id == currentNote) {
             note.title = quillTitle.value;
             note.preview = quill.getText(0, 50);
             note.text = quill.getContents();
-            //note.isSaved = true;
             year = newDate.getFullYear();
             month = newDate.getMonth();
             date = newDate.getDate();
 
-            sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.isStarred, note.isSaved);
+            if (note.title == '') {
+                console.log('Enter a title');
+                return;
+            }
+
+            sidebarNotes(note.id, note.title, note.preview, note.month, note.date, note.isStarred);
             saveNote();
 
-        } 
+        }
         
     })
 
@@ -508,13 +446,13 @@ btnStarred.addEventListener('click', () => {
 
     let noteItems = [...notesList.children];
 
+    notesList.classList.add('favorite-notes');
+
     let emptyMsg = document.querySelector('.notes_empty-msg');
     let favNoteItems = noteItems.filter(item => item.classList.contains('favorite'));
     noteItems.filter(item => {
         if (!item.classList.contains('favorite')) {
             item.classList.add('hidden');
-        } else {
-            item.classList.remove('hidden');
         }
     })
 
@@ -528,56 +466,50 @@ function showEmptyMsg(emptyMsg) {
     emptyMsg.classList.add('show');
 }
 
-// Star note with a specific ID
-const starNote = (notesID) => {
-    console.log("starNote ran with id: " + notesID)
+
+// Favourite Notes
+
+document.addEventListener('click', function () {
+    let btnFav = event.target;
+    if (!btnFav.classList.contains('notes_star')) {
+        return;
+    }
+
+    btnFav.classList.toggle('notes_starred');
+    let notesItem = btnFav.closest('.notes_item');
+    notesItem.classList.toggle('favorite');
+    noteStarred(notesItem.id);
+
+    if (notesList.classList.contains('favorite-notes')) {
+        btnStarred.click();
+    }
+});
+
+function noteStarred(notesItemId) {
+    console.log("noteStarred ran with id: " + notesItemId)
     myNotes.forEach(note => {
-        if (notesID == note.id) {
+        if (notesItemId == note.id) {
             note.isStarred = !note.isStarred;
             saveNote(); // Save starred status to local storage
         }
     });
 }
 
-// ********* SPECIFIC NOTE FUNCTIONALITY ********* //
+// ********* OPEN NOTE ********* //
 
 notesListArr = [...notesList.children];
 
 notesListArr.forEach(note => {
     note.addEventListener('click', (e) => {
-        const clickedLi = e.target.closest('li');
 
         console.log(e.target);
 
-        // Check if clicked item is the star
-        if (e.target.classList.contains('notes_star')) {
-
-            // Toggle a class that shows that the star was starred
-            e.target.classList.toggle('notes_starred');
-
-            // Add a new class '.favorite' to the LI element
-            clickedLi.classList.toggle('favorite');
-
-            // Run a function with ID as a parameter
-            starNote(clickedLi.id);
-        }
-
-        // Autoclick the Show/Hide Favorites button
-        if (notesList.classList.contains('favorite-notes')) {
-            btnStarred.click();
-        }
-
         for (let i = 0; i < myNotes.length; i++) {
-
-            if (clickedLi.id == myNotes[i].id) {
-
+            if (e.target.id == myNotes[i].id || e.target.parentNode.id == myNotes[i].id || e.target.parentNode.parentNode.id == myNotes[i].id) {
                 quillTitle.value = myNotes[i].title;
                 quill.setContents(myNotes[i].text);
                 currentNote = myNotes[i].id;
                 console.log(currentNote);
-
-                myNotes[i].isSaved = true;
-                
             }
         }
     })
@@ -621,65 +553,4 @@ actionMenu.addEventListener('click', (e) => {
             btn.classList.toggle('action-btn_shown');
         })
     }
-})
-
-const notesUL = document.getElementById("ul").getElementsByTagName("li");
-
-for (let i = 0; i < myNotes.length; i++) {
-
-    //console.log(myNotes[i].isStarred);
-
-    if(myNotes[i].isStarred) {
-        //notesUL[i].classList.add('favorite')
-    }
-
-/*     if (!notesUL[i].classList.contains('favorite')) {
-        console.log('true')
-    } */
-}
-
-const createNote = () => {
-
-}
-
-const showNotes = () => {
-
-
-
-}
-
-const showStarred = () => {
-
-}
-
-const showDeleted = () => {
-
-}
-
-navList.addEventListener('click', (e) => {
-    const btnCreate = e.target.closest('.btn-nav_new-note');
-    const btnMyNotes = e.target.closest('.btn-nav_my-notes');
-    const btnStarred = e.target.closest('.btn-nav_starred');
-    const btnDeleted = e.target.closest('.btn-nav_deleted');
-    
-    if (btnCreate) {
-        console.log('New Note')
-        createNote();
-    }
-
-    if (btnMyNotes) {
-        console.log('My Notes')
-        showNotes();
-    }
-
-    if (btnStarred) {
-        console.log('Favorite Notes')
-        showStarred();
-    }
-
-    if (btnDeleted) {
-        console.log('Deleted Notes')
-        showDeleted();
-    }
-     
 })
