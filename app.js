@@ -261,6 +261,28 @@ console.log("id: " + id + " isStarred: " + isStarred);
         </li>
     `)
     }
+    
+    let newNote = document.getElementById(id);
+
+    if (newNote) {
+        newNote.addEventListener('click', (e) => {
+            let clickedLI = e.target.closest('li');
+            console.log(e.target);
+    
+            for (let i = 0; i < myNotes.length; i++) {
+    
+                if (clickedLI.id == myNotes[i].id ) {
+    
+                    quillTitle.value = myNotes[i].title;
+                    quill.setContents(myNotes[i].text);
+                    currentNote = myNotes[i].id;
+                    console.log(currentNote);
+
+                }
+    
+            }
+        })
+    }
 
 }
 
@@ -360,6 +382,15 @@ btnSave.addEventListener('click', () => {
         console.log('Enter a title');
         return; 
     } */ 
+
+    // Save button alert
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your note has been saved',
+        showConfirmButton: false,
+        timer: 1000
+    })
 
     myNotes.forEach(note => {
 
