@@ -80,7 +80,7 @@ const mqMobile = window.matchMedia("(max-width: 576px)");
 const mqTablet = window.matchMedia("(max-width: 780px)");
 
 pageNav.addEventListener('click', e => {
-let button = e.target.closest("button")
+    let button = e.target.closest("button")
     /// *** BURGER MENU *** ///
     if (e.target.classList.contains('nav_burger-menu') || e.target.classList.contains('btn-nav_burger-menu')) {
 
@@ -126,24 +126,24 @@ let button = e.target.closest("button")
             allNotes.classList.remove('show');
         }
     }
-    
+
 })
 
 // ********* QUILL ********* //
 var toolbarOptions = [
     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [ 'link', 'image'],
-  ];
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['link', 'image'],
+];
 
- const quill = new Quill('#editor', {
+const quill = new Quill('#editor', {
     modules: {
-      toolbar: toolbarOptions
+        toolbar: toolbarOptions
     },
     theme: 'snow',
     placeholder: 'Type your note here...',
-  });
+});
 
 // ***** QUILL toolbar, added print button ******
 // appends the HTML
@@ -168,7 +168,7 @@ quillToolbar.insertAdjacentHTML('beforeend', `
 const printBtn = document.querySelector(".btn_print");
 
 // //PRINT FUNCTION
-printBtn.addEventListener("click", function(e) {
+printBtn.addEventListener("click", function (e) {
     console.log(e.target);
     document.printBtn = window.print();
 });
@@ -187,7 +187,7 @@ function saveNote() {
 function loadNotes() {
 
     myNotes = JSON.parse(localStorage.getItem("savedNotes"));
-    
+
     if (myNotes === null) {
         myNotes = [];
     }
@@ -221,7 +221,7 @@ noteDate.innerHTML = `
 
 const notesList = document.querySelector('.notes_list');
 const sidebarNotes = (id, title, preview, month, date, isStarred) => { // need id
-console.log("id: " + id + " isStarred: " + isStarred);
+    console.log("id: " + id + " isStarred: " + isStarred);
     if (preview.length >= 50) {
         preview = preview.substring(0, 50) + "...";
     }
@@ -261,25 +261,25 @@ console.log("id: " + id + " isStarred: " + isStarred);
         </li>
     `)
     }
-    
+
     let newNote = document.getElementById(id);
 
     if (newNote) {
         newNote.addEventListener('click', (e) => {
             let clickedLI = e.target.closest('li');
             console.log(e.target);
-    
+
             for (let i = 0; i < myNotes.length; i++) {
-    
-                if (clickedLI.id == myNotes[i].id ) {
-    
+
+                if (clickedLI.id == myNotes[i].id) {
+
                     quillTitle.value = myNotes[i].title;
                     quill.setContents(myNotes[i].text);
                     currentNote = myNotes[i].id;
                     console.log(currentNote);
 
                 }
-    
+
             }
         })
     }
@@ -346,7 +346,7 @@ btnCreate.addEventListener('click', () => {
     let seconds = newDate.getSeconds();
 
     //create new Note Object
-    const newNote = new Note (
+    const newNote = new Note(
         id,
         title,
         text,
@@ -381,15 +381,17 @@ btnSave.addEventListener('click', () => {
     /* if (newNote.title == '') {
         console.log('Enter a title');
         return; 
-    } */ 
+    } */
 
     // Save button alert
     Swal.fire({
-        position: 'top-end',
+        position: 'center',
         icon: 'success',
         title: 'Your note has been saved',
         showConfirmButton: false,
-        timer: 1000
+        timer: 1500,
+        width: 350,
+        height: 150
     })
 
     myNotes.forEach(note => {
@@ -411,8 +413,39 @@ btnSave.addEventListener('click', () => {
             saveNote();
 
         }
-        
+
     })
+
+});
+
+//********* Deleted note list ********* //
+
+const btnDeleted = document.querySelector('.btn-nav_deleted');
+
+btnDeleted.addEventListener('click', () => {
+
+    let emptyMsg = document.querySelector('.notes_empty-msg');
+
+    var notesListIitems = document.querySelector('.notes_list');
+    var noteItems = [...notesListIitems.children];
+    var deletedNoteItemsID = [];
+    noteItems.forEach(item => {
+        item.classList.add('hidden');
+    })
+
+
+    myNotes.filter(item => {
+        if (item.isDeleted) {
+            sidebarNotes(item.id, item.title, item.preview, item.date, item.month, item.isStarred);
+            deletedNoteItemsID.push(item.id);
+        }
+    })
+
+    if (deletedNoteItemsID.length == 0) {
+        showEmptyMsg(emptyMsg);
+    } else {
+        emptyMsg.classList.remove('show');
+    }
 
 });
 
@@ -451,6 +484,7 @@ btnStarred.addEventListener('click', () => {
     let emptyMsg = document.querySelector('.notes_empty-msg');
     let favNoteItems = noteItems.filter(item => item.classList.contains('favorite'));
     noteItems.filter(item => {
+        item.classList.remove('hidden');
         if (!item.classList.contains('favorite')) {
             item.classList.add('hidden');
         }
@@ -519,18 +553,18 @@ notesListArr.forEach(note => {
 function loadTheme() {
     let t = localStorage.getItem("theme");
     console.log("loadtheme ran, theme: " + t);
-        if (t === null) {
-            t = "style";
-        }
-        return t;
+    if (t === null) {
+        t = "style";
     }
-    
+    return t;
+}
+
 applyTheme(loadTheme());
-    
+
 // *********** THEMES *********** //
 themeSelect = document.getElementById("themeSelect");
 themeStylesheet = document.getElementById("themeStylesheet");
-themeSelect.addEventListener("change", function() {
+themeSelect.addEventListener("change", function () {
     applyTheme(this.value);
     console.log(this.value);
     localStorage.setItem("theme", this.value);
