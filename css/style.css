@@ -725,6 +725,15 @@ p, h1, h2, h3, h4, h5, h6 {
         margin: 0 25px 0 10%;
         height: 60px;
     }
+    @media print {
+        /* All your print styles go here */
+        .ql-toolbar.ql-snow {
+            display: none !important;
+        }
+        .page_nav {
+            display: none;
+        }
+    }
     /***************   ACTION MENU   ***************/
     .action-menu {
         position: fixed;
@@ -792,4 +801,20 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .swal2-title {
     font-size: 20px !important;
+}
+
+@media print {
+    /* All your print styles go here */
+    .ql-toolbar.ql-snow {
+        display: none !important;
+    }
+    .page_nav {
+        display: none !important;
+    }
+    .nav_logo {
+        display: none !important;
+    }
+    .nav_list {
+        display: none !important;
+    }
 }

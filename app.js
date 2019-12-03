@@ -426,9 +426,9 @@ btnDeleted.addEventListener('click', () => {
 
     let emptyMsg = document.querySelector('.notes_empty-msg');
 
-    var notesListIitems = document.querySelector('.notes_list');
-    var noteItems = [...notesListIitems.children];
-    var deletedNoteItemsID = [];
+    let notesListIitems = document.querySelector('.notes_list');
+    let noteItems = [...notesListIitems.children];
+    let deletedNoteItemsID = [];
     noteItems.forEach(item => {
         item.classList.add('hidden');
     })
