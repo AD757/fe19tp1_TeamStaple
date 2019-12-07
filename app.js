@@ -419,6 +419,11 @@ notesList.addEventListener("click", e => {
   }
 });
 
+if (mqMobile) {
+  sideBar.classList.remove("show");
+  textEditor.classList.remove("hidden");
+}
+
 // ********* SIDEBAR NOTES FUNCTION ********* //
 
 const sidebarNotes = (
