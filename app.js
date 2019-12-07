@@ -133,7 +133,7 @@ applyTheme(loadTheme());
 
 themeSelect = document.getElementById("themeSelect");
 themeStylesheet = document.getElementById("themeStylesheet");
-themeSelect.addEventListener("change", function() {
+themeSelect.addEventListener("change", function () {
   applyTheme(this.value);
   console.log(this.value);
   localStorage.setItem("theme", this.value);
@@ -250,7 +250,7 @@ const getDateById = id => {
   return `
     ${weekDays[newDate.getDay()]}, ${
     months[newDate.getMonth()]
-  } ${newDate.getDate()}, ${newDate.getFullYear()} | ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}
+    } ${newDate.getDate()}, ${newDate.getFullYear()} | ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}
 `;
 };
 
@@ -355,6 +355,18 @@ const deleteNote = id => {
   });
 };
 
+// ********* DELETE NOTE FUNCTION ********* //
+
+const undoDeleteNote = id => {
+  myNotes.forEach(note => {
+    if (id == note.id) {
+      note.isDeleted = false;
+      console.log(note.id + " is Delete undone " + note.isDeleted);
+      saveNote(); // Save undone deleted status to local storage
+    }
+  });
+};
+
 // ********* DISPLAY NOTE IN EDITOR FUNCTION ********* //
 
 const displayNote = id => {
@@ -377,16 +389,27 @@ notesList.addEventListener("click", e => {
   if (e.target.classList.contains("notes_item-delete")) {
     deleteNote(clickedLI);
     unStarNote(clickedLI);
+    e.target.closest("li").classList.add("deleted");
+    e.target.closest("li").classList.add("hidden");
+  }
+
+  if (e.target.classList.contains("notes_item-undo")) {
+    undoDeleteNote(clickedLI);
+    e.target.closest("li").classList.remove("deleted");
     e.target.closest("li").classList.add("hidden");
   }
   // Check if the clicked area is a Star button
   else if (e.target.classList.contains("notes_star")) {
     e.target.classList.toggle("notes_starred");
-
+    e.target.closest("li").classList.toggle("favorite");
     if (activeNote.isStarred) {
       unStarNote(clickedLI);
     } else {
       starNote(clickedLI);
+    }
+    if (e.target.closest('.notes_list').classList.contains('notes_favorites-list')) {
+      let btnStarred = document.querySelector('.btn-nav_starred');
+      btnStarred.click();
     }
   }
   // Display the clicked note if none of the above is true
@@ -418,27 +441,28 @@ const sidebarNotes = (
       "afterbegin",
       `
         <li class="notes_item favorite" id=` +
-        id +
-        `>
+      id +
+      `>
         <button class="notes_item-delete"></button>
+        <button class="notes_item-undo"></button>
         <div class="notes_info">
             <div class="notes-date">
             <span class="notes_date-month">` +
-        months[month].substr(0, 3) +
-        `</span>
+      months[month].substr(0, 3) +
+      `</span>
             <span class="notes_date-day">` +
-        date +
-        `</span>
+      date +
+      `</span>
             </div>
             <i class="notes_star far fa-star notes_starred"></i>
         </div>
         <div class="notes_content">
             <h3 class="notes_title">` +
-        title +
-        `</h3>
+      title +
+      `</h3>
             <p class="notes_text">` +
-        preview +
-        `</p>
+      preview +
+      `</p>
         </div>
         </li>
     `
@@ -447,28 +471,29 @@ const sidebarNotes = (
     notesList.insertAdjacentHTML(
       "afterbegin",
       `
-        <li class="notes_item deleted" id=` +
-        id +
-        `>
+        <li class="notes_item deleted hidden" id=` +
+      id +
+      `>
         <button class="notes_item-delete"></button>
+         <button class="notes_item-undo"></button>
         <div class="notes_info">
             <div class="notes-date">
             <span class="notes_date-month">` +
-        months[month].substr(0, 3) +
-        `</span>
+      months[month].substr(0, 3) +
+      `</span>
             <span class="notes_date-day">` +
-        date +
-        `</span>
+      date +
+      `</span>
             </div>
             <i class="notes_star far fa-star"></i>
         </div>
         <div class="notes_content">
             <h3 class="notes_title">` +
-        title +
-        `</h3>
+      title +
+      `</h3>
             <p class="notes_text">` +
-        preview +
-        `</p>
+      preview +
+      `</p>
         </div>
         </li>
     `
@@ -478,27 +503,28 @@ const sidebarNotes = (
       "afterbegin",
       `
         <li class="notes_item" id=` +
-        id +
-        `>
+      id +
+      `>
         <button class="notes_item-delete"></button>
+        <button class="notes_item-undo"></button>
         <div class="notes_info">
             <div class="notes-date">
             <span class="notes_date-month">` +
-        months[month].substr(0, 3) +
-        `</span>
+      months[month].substr(0, 3) +
+      `</span>
             <span class="notes_date-day">` +
-        date +
-        `</span>
+      date +
+      `</span>
             </div>
             <i class="notes_star far fa-star"></i>
         </div>
         <div class="notes_content">
             <h3 class="notes_title">` +
-        title +
-        `</h3>
+      title +
+      `</h3>
             <p class="notes_text">` +
-        preview +
-        `</p>
+      preview +
+      `</p>
         </div>
         </li>
     `
@@ -507,18 +533,15 @@ const sidebarNotes = (
 };
 
 myNotes.forEach(note => {
-  if (!note.isDeleted == true) {
-    // Check for deleted items
-    sidebarNotes(
-      note.id,
-      note.title,
-      note.preview,
-      note.month,
-      note.date,
-      note.isStarred,
-      note.isDeleted
-    );
-  }
+  sidebarNotes(
+    note.id,
+    note.title,
+    note.preview,
+    note.month,
+    note.date,
+    note.isStarred,
+    note.isDeleted
+  );
 });
 
 // *********** SEARCH MENU *********** //
@@ -572,6 +595,9 @@ const toggleSideBar = () => {
 };
 
 navList.addEventListener("click", e => {
+  if (document.querySelector('.notes_list').classList.contains('notes_favorites-list')) {
+    document.querySelector('.notes_list').classList.remove('notes_favorites-list')
+  }
   let button = e.target.closest("button");
 
   // Create a New Note button
@@ -597,6 +623,7 @@ navList.addEventListener("click", e => {
   }
   // Favorites button
   else if (button.classList.contains("btn-nav_starred")) {
+    document.querySelector('.notes_list').classList.add('notes_favorites-list');
     let newNoteElements = document.querySelectorAll(".notes_item");
     newNoteElements.forEach(note => {
       if (note.classList.contains("favorite")) {
@@ -617,19 +644,19 @@ navList.addEventListener("click", e => {
       }
     });
 
-    myNotes.filter(note => {
-      if (note.isDeleted) {
-        sidebarNotes(
-          note.id,
-          note.title,
-          note.preview,
-          note.date,
-          note.month,
-          note.isStarred,
-          note.isDeleted
-        );
-      }
-    });
+    // myNotes.filter(note => {
+    //   if (note.isDeleted) {
+    //     sidebarNotes(
+    //       note.id,
+    //       note.title,
+    //       note.preview,
+    //       note.date,
+    //       note.month,
+    //       note.isStarred,
+    //       note.isDeleted
+    //     );
+    //   }
+    // });
   }
   toggleSideBar();
 });
@@ -640,7 +667,7 @@ navList.addEventListener("click", e => {
 btnSave.addEventListener("click", () => {
   // Save button alert
   Swal.fire({
-    position: "top-end",
+    position: "center",
     icon: "success",
     title: "Your note has been saved",
     showConfirmButton: false,

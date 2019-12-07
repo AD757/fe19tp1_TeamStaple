@@ -11,7 +11,9 @@
   --action-hover-color: #1e88e5;
   --toolbar-bg-color: #f6f6f6;
 }
+
 /* FONTS */
+
 :root {
   --family-font: "Lato", sans-serif;
 }
@@ -27,13 +29,7 @@ body {
   background-color: var(--main-bg-color);
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+p, h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
 }
@@ -118,8 +114,7 @@ h6 {
   outline: 0;
 }
 
-.btn-nav:hover,
-.btn-nav:focus {
+.btn-nav:hover, .btn-nav:focus {
   color: var(--darkest-color);
   background-color: var(--nav-hover-color);
 }
@@ -166,8 +161,7 @@ h6 {
   opacity: 0.6;
 }
 
-.btn_expand:hover,
-.btn_expand:focus {
+.btn_expand:hover, .btn_expand:focus {
   opacity: 1;
 }
 
@@ -251,8 +245,35 @@ h6 {
   cursor: pointer;
 }
 
+.notes_item-undo {
+  display: none;
+  position: absolute;
+  right: 8px;
+  top: 36px;
+  background: transparent url(images/undo_btn.png) no-repeat top;
+  width: 32px;
+  height: 32px;
+  background-position: center center;
+  background-size: 42px;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .notes_item:hover .notes_item-delete {
   opacity: 0.5;
+}
+
+.notes_item.deleted:hover .notes_item-undo {
+  opacity: 0.8;
+}
+
+.notes_item.deleted .notes_item-delete {
+  display: none;
+}
+
+.notes_item.deleted .notes_item-undo {
+  display: block;
 }
 
 .notes_content {
@@ -405,8 +426,7 @@ h6 {
   color: rgba(0, 0, 0, 0.3);
 }
 
-.quill_title:hover,
-.quill_title:focus {
+.quill_title:hover, .quill_title:focus {
   box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-out;
   outline: 0;
@@ -426,8 +446,7 @@ h6 {
   outline: 0;
 }
 
-.quill_btn-save:hover,
-.quill_btn-save:focus {
+.quill_btn-save:hover, .quill_btn-save:focus {
   background-color: var(--action-hover-color);
 }
 
@@ -473,8 +492,7 @@ h6 {
   transform: scale(0.9);
 }
 
-.action-btn:hover,
-.action-btn:focus {
+.action-btn:hover, .action-btn:focus {
   background-color: var(--action-hover-color);
   transform: scale(1);
 }
@@ -492,10 +510,12 @@ h6 {
 #themes {
   padding: 0;
 }
+
 #toolbarBox {
   display: flex;
   justify-content: space-between;
 }
+
 #themeSelect {
   font-family: "Lato", sans-serif;
   font-size: 13px;
@@ -602,8 +622,7 @@ h6 {
   outline: 0;
 }
 
-.popup_start:hover,
-.popup_start:focus {
+.popup_start:hover, .popup_start:focus {
   background-color: #1e88e5;
 }
 
@@ -662,8 +681,7 @@ h6 {
     width: 100%;
     padding: 0 25px;
   }
-  .btn-nav:hover,
-  .btn-nav:focus {
+  .btn-nav:hover, .btn-nav:focus {
     background-color: #fff;
   }
 }
@@ -674,46 +692,35 @@ h6 {
   .app {
     flex-direction: column;
   }
-
   .page-nav {
     position: fixed;
     width: 100%;
     height: 60px;
     flex-direction: row-reverse;
   }
-
   .notes {
     width: 100%;
     position: unset;
     margin: 0;
     margin-top: 60px;
   }
-
   #notes_search {
     width: 100%;
   }
-
   .main-content {
     width: 100%;
     margin-top: 70px;
     padding: 0;
   }
-
   .editor {
     height: 70%;
   }
-
   .quill_title {
     margin-right: 0;
   }
-
-  .quill_title-container,
-  .quill_date,
-  .ql-toolbar.ql-snow,
-  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+  .quill_title-container, .quill_date, .ql-toolbar.ql-snow, .ql-toolbar.ql-snow+.ql-container.ql-snow {
     margin: 0 25px;
   }
-
   .nav_list {
     display: flex;
     flex-direction: row;
@@ -721,28 +728,26 @@ h6 {
     margin-left: 25px;
     width: 100%;
   }
-
   .nav-list_show {
     display: flex;
   }
-
   .btn-nav {
     padding: 0;
     height: 60px;
   }
-
   .btn-nav_text {
     display: none;
     font-size: 16px;
   }
-
   .nav_expand {
     display: none;
   }
-
   .nav_logo {
     margin: 0 25px 0 10%;
     height: 60px;
+  }
+  .notes_item-delete {
+    opacity: 1;
   }
 }
 
