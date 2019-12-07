@@ -68,7 +68,6 @@ btnExpand.addEventListener('click', () => {
 
 })
 
-
 // ********* BURGER MENU ********* //
 const btnBurger = document.querySelector('.nav_burger-menu');
 const btnNavTxt = document.querySelectorAll('.btn-nav_text');
@@ -130,7 +129,6 @@ pageNav.addEventListener('click', e => {
 
 })
 
-
 // ********* QUILL ********* //
 var toolbarOptions = [
     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -174,7 +172,6 @@ printBtn.addEventListener("click", function (e) {
     console.log(e.target);
     document.printBtn = window.print();
 });
-
 
 // ********* LOCAL STORAGE ********* //
 
@@ -228,7 +225,6 @@ const sidebarNotes = (id, title, preview, month, date, isStarred) => { // need i
     if (preview.length >= 50) {
         preview = preview.substring(0, 50) + "...";
     }
-
 
     if (isStarred) {
         notesList.insertAdjacentHTML('afterbegin', `
@@ -298,6 +294,7 @@ myNotes.forEach(note => {
 
 });
 
+
 // ********* NOTE CONSTRUCTOR ********* //
 
 class Note {
@@ -347,7 +344,6 @@ btnCreate.addEventListener('click', () => {
     let hours = newDate.getHours();
     let minutes = newDate.getMinutes();
     let seconds = newDate.getSeconds();
-    
 
     //create new Note Object
     const newNote = new Note(
@@ -421,8 +417,6 @@ btnSave.addEventListener('click', () => {
     })
 
 });
-
-
 
 //********* Deleted note list ********* //
 
@@ -555,8 +549,6 @@ notesListArr.forEach(note => {
     })
 })
 
-
-
 // ******** LOAD THEMES ********* //
 function loadTheme() {
     let t = localStorage.getItem("theme");
@@ -596,7 +588,6 @@ actionMenu.addEventListener('click', (e) => {
         })
     }
 })
-
 
 
 
