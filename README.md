@@ -7,6 +7,7 @@ Quire is an online note taking application, which enables you to create, view, a
 
 * Choose different themes
 * Print notes
+* Search notes
 * Mark note as favorite
 * Undo deleted notes
 * Apply basic styling on their notes
