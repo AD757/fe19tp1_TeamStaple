@@ -12,6 +12,7 @@ Quire is an online note taking application, which enables you to create, view, a
 * Undo deleted notes
 * Apply basic styling on their notes
 * Easy to navigate between different notes
+* Responsive design
 * Uses localStorage to save data 
 
 ### Quire Demo 
@@ -30,7 +31,7 @@ Quire is currently using Quill rich text editor.
 
  - Add material design
  - Add autosave functionality
- - Responsive design
+
 
 License
 ----
